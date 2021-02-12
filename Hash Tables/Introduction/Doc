@@ -1,0 +1,599 @@
+
+HASH TABLES.
+
+The search problem, which was introduced earlier, attempts to locate an item
+in a collection based on its associated search key. Seaching is the most common
+operation applied to collections of data. Its not only used to determine if an item
+is in the collection, but can also be used in adding new items to the collection and
+removing existing items. Given the importance of searching, we need to be able to
+accomplish this operation fast and efficiently.
+
+If the collection is stored in a sequence, we can use a linear search to locate an
+item. The linear search is simple to implement but not very efficient as it requires
+O(n) time in the worst case. We saw that the search time could be improved using
+the binary search algorithm as it only requires O( log n ) time in the worst case.
+But the binary search algorithm can only be applied to a sequence in which the keys are in
+sorted order.
+
+The question becomes, can we improve the search operation to achieve better
+than O( log n ) time? The linear and binary search algorithms are both comparison-
+based searches. That is, in order to locate an item, the target search key has
+to be compared against the other keys in the collection. Unfortunately, it can be
+shown that O( log n ) is the best we can achieve for a comparison-based search. To
+improve on this time, we would have to use a technique other than comparing the
+target key against other keys in the collection. In this section, we explore the
+use of a non-comparison-based algorithm to provide a more efficient search operation.
+This is the same technique used in the implementation of Python's dictionary structure.
+
+
+INTRODUCTION.
+
+Suppose you  have a collection of products for which you need to maintain
+information and allow for numerous searches on that information. At the present time,
+you only have a small collection of products but you can envision having up to
+a hundred products in the future. So you decide to assign a unique identifier or
+code to each product using the integer values in the range 100...199. To manage
+the data and allow for searches, you decide to store the product codes in an array
+of sufficient size for the number of products available.
+
+Depending on the number of searches, we can choose whether to perform a simple
+linear search on the array or first sort the keys and then use a binary search.
+Even though this example uses a small collection, in either case the searches still
+require at least logarithmic time and possibly even linear time in the worst case.
+
+Given the small range of key values, this problem is a special case. The searches
+can actually be performed in constant time. Instead of creating an array that is
+only large enough to hold the products on hand, suppose we create an array with
+100 elements, the size needed to store all possible product codes. We can then
+assign each key a specific element in the array. If the product code exists, the
+key and its associated data will be stored in its assigned element. Otherwise,
+the element will be set to None to flag the absence of that product. The search
+operation is reduced to simply examining the array element associated with a given
+search key to determine if it contains a valid key or a null reference.
+
+
+To determine the element assigned to a given key, we not that the produce
+codes are in the range[100....199] while the array indices are in the range[0...99].
+There is a natural mapping between the two. Key 100 can be assigned to element 0,
+key 101 to element 1, key 102 to element 2, and so on. This mapping can be computed
+easily by subtracting 100 from the key value or with the use of the
+modulus operator ( key % 100 ).
+
+This technique provides direct access to the search  keys. When searching for
+a key, we apply the same mapping operation to determine the array element that
+contains the given target. For example, suppose we want to search for product 107.
+We compute 107 % 100 to determine the key will be in element 7 if it exists. Since
+there is a product with code 107 and it can be directly accessed at array element 7.
+If the target key is not in the collection, as is the case for product code 102, the
+corresponding element ( 102 % 100 = 2 ) will contain a null reference. This
+results in a constant time search since we can directly examine a specific a specific element
+of the array and not have to compare the target key against the other keys in the
+collection.
+
+HASHING.
+
+We can use the direct access technique for small sets of keys that are composed of
+consecutive integer values. But what if the key can be any integer value? Even
+with a small collection of keys, we cannot create an array large enough to store all
+possible integer values. That's where hashing comes into play.
+
+Hashing is the process of mapping a search key to a limited range of array
+indices with the goal of providing direct access to the keys. The keys are stored in
+an array called a hash table and a hash function is associated with the table.
+The function converts or maps the search keys to specific entries in the table. For
+example, suppose we have the following set of keys:
+
+        765, 431, 96, 142, 579, 226, 903, 388
+
+and a hash table T, containing M = 13 elements. We can define a simple hash
+function h(.) that maps the keys to entries in the hash table:
+
+         h( key ) = key % M
+
+You will notice this is the same operation we used with the product codes in
+our earlier example. Dividing the integer key by the size of the table and taking
+the remainder ensures the value returned by the function will be within the valid
+range of indices for the given table.
+
+To add keys to the hash table, we apply the hash function to determine the
+entry in which the given key should be stored. Applying the hash function to key
+765 yields a result of 11, which indicates 765 should be stored in element 11 of the
+hash table. Likewise, if we apply the hash function to the next four keys in the
+list, we find:
+
+         h( 431 ) > 2   h( 96 ) > 5   h( 142 ) > 12   h( 579 ) > 7
+
+all of which are unique index values.
+
+LINEAR PROBING.
+
+The first five keys were easily added to the table. The resulting index values
+were unique and the corresponding table entries contained null references, which
+indicated empty slots. But that's not always the case. Consider what happens
+when we attempt to add key 226 to the hash table. The hash function maps this
+key to entry 5, but that entry already contains key 96. The result is a
+COLLISION, which occurs when two or more keys map to the same hash location. We
+We mentioned earlier that the goal of hashing is to provide direct
+access to a collection of search keys. When the key value can be one of a wide range
+of values, it's impossible to provide a unique entry for all possible key values.
+
+If two keys map to the same table entry, we must resolve the collision by
+probing the table to find another available slot. The simplest approach is to use
+a linear probe, which examines the table entries in sequential order starting with
+the first entry immediately following the original hash location. For key value 226,
+the linear probe finds slot 6 available, so the key can be stored at that position.
+
+When key 903 is added, the hash function maps the key to index 6, but we just
+added key 226 to this entry. Your first instinct may be remove key 226 from this
+location, since 226 did not map directly to this entry, and store 903 here instead.
+Once a key is stored in the hash table, however, it's only removed when a delete
+operation is performed. This collision has to be resolved just like any other, by
+probing to find another slot. In the case of key 903, the linear probe leads us to
+slot 8.
+
+If the end of the array is reached during the probe, we have to wrap around
+to the first entry and continue until either an available slot is found or all entries
+have been examined. For example, if we add key 388 to the hash table, the hash function
+maps the key to slot 11, which contains key 765. The linear requires wrapping around
+to the beginning of the array.
+
+SEARCHING.
+
+Searching a hash table for a specific key is very similar to the add operation. The
+target key is mapped to an initial slot in the table and then it is determined if
+that entry contains the key. If the key is not at that location, the same probe used to
+to add the keys to the table must be used to locate the target. In this case, the
+probe continues until the target is located, a null reference is encountered, or all
+slots have been examined. When either of the latter two situations occurs, this
+indicates the target key is not in the table.
+
+DELETIONS.
+
+We've seen how keys are added to the table with the use of the hash function and
+a linear probe for resolving collisions. But how are deletions handled? Deleting
+form a hash table is a bit more complicate that an insertion. A search can be
+performed to locate the key in a similar fashion as the basic search operation
+described earlier. But after finding the key, we cannot simply remove it by setting
+the corresponding table entry to None.
+
+Suppose we remove key 226 from our hash table and set the entry at element 6
+to None. What happens if we then perform a search for key 903? The htSearch(
+function will return False, indicating the key is not in the table, even though it's
+located at element 8. The reason for the unsuccessful search is due to element
+6 containing a null reference from that key having been previously removed. Remember,
+key 903 maps to element 6 but when it was added, a new slot had to be found via a probe
+since key 226 already occupied that slot. If we simply remove key 226, there is not way
+to indicate we have to probe past this point when searching for other keys.
+
+Instead of simply setting the corresponding table entry to None, we can use a special
+flag to indicate the entry is not empty but it had been previously occupied.
+
+Thus, when probing to add a new key or in searching for an existing key, we know
+the search must continue past the slot since the target may be stored beyond this
+point.
+
+CLUSTERING.
+
+As more keys are added to the hash table, more collisions are likely to occur. Since
+each collision requires a linear probe to find the next available slot, the keys begin
+to form CLUSTERS. As the clusters grow larger, so too does the probability that the
+next key added to the table will result in a collision. If our table were empty, the
+probability of a key being added to any of the 13 empty slots is 1 out of 13, since
+it is equally likely the key can hash to any of the slots. Now consider the hash
+table above. What is the probability the next key will occupy the empty
+slot at position 4? If the next key hashed to this position, it can be stored
+directly into the slot without the need to probe. This also results ina  probability of 1 out
+of 13. But the probability the next key will occupy slot 9 is 5 out of 13. If the
+next key hashes to any of the slots between 5 and 9, it will be stored in slot 9 due
+to the linear probe required to find the first position beyond the cluster of keys.
+Thus, the key is five times more likely to occupy slot 9 than 4.
+
+This type of clustering is know as primary clustering since it occurs near
+the original hash position. As the clusters grow larger, so too does the length of
+the search needed to find the next available slot. We can reduce the amount of
+primary clustering by changing the technique used in the probing. In this section,
+we examine several different probing techniques that can be employed to reduce
+primary clustering.
+
+MODIFIED LINEAR PROBE.
+
+When probing to find the next available slot, a loop is used to iterate through the
+table entries. The order in which the entries are visited form a probe sequence.
+The linear probe searches for the next available slot by stepping through the hash
+table entries in sequential order. The next array slot in the probe sequence can be
+represented as an equation:
+
+            slot = ( home + i ) % M
+
+where i is the i-th probe in the sequence, i = 1, 2, .... M - 1. "home" is the home
+position, which is the index to which the key was originally mapped by the hash
+function. The modulus operator is used to wrap back around to the front of the
+array after reaching the end. The use of the linear probe resulting in six collisions
+in our hash table of size M = 13:
+
+      h( 765 ) > 11
+      h( 431 ) > 2
+      h( 96 )  > 5
+      h( 142 ) > 12
+      h( 579 ) > 7
+      h( 226 ) > 5  > 6
+      h( 903 ) > 6  > 7  > 8  > 9
+      h( 388 ) > 11 > 12 > 0
+
+when the keys are inserted in the order:
+      765, 431, 96, 142, 579, 226, 903, 388
+
+We can improve the linear probe by skipping over multiple elements instead of
+probing the immediate successor of each element. This can be done by changing the
+step size in the probe equation to some fixed constant c:
+       slot = ( home + i * c ) % M
+
+Suppose we use a linear probe with c = 3 to build the hash table using the same
+set of keys. This results in only two collisions as compared to six when c = 1.
+       h( 765 ) > 11
+       h( 431 ) > 2
+       h( 96 )  > 5
+       h( 142 ) > 12
+       h( 579 ) > 7
+       h( 226 ) > 5  > 8
+       h( 903 ) > 6
+       h( 388 ) > 11 > 1
+
+Any value can be used for the constant factor, but to ensure the probe sequence
+includes all table entries, the constant factor c and the table size must be relatively
+prime. With a hash table of size M = 13, the linear probe with a constant factor
+c = 2 will visit every element. For example, if the key hashes to position 2, the
+table entries will be visited in the following order:
+
+     4, 6, 8, 10, 12, 1, 3, 5, 7, 9, 11, 0
+
+If we use a value of c = 3, the probe sequence will be:
+     5, 8, 11, 1, 4, 7, 10, 0, 3, 6, 9, 12
+
+Now, consider the case where the table size is M = 10 and the constant factor
+is c = 2. The probe sequence will only include the even numbered entries and will
+repeat the same sequence without possibly finding the key or an available entry to s
+store a new key:
+
+     4, 6, 8, 0, 2, 4, 6, 8, 0
+
+QUADRATIC PROBING.
+
+The linear probe with a constant factor larger than 1 spreads the keys out from
+the initial hash position, but it can still result in clustering. The clusters simply
+move equal distance from the initial hash positions. A better approach for reducing
+primary clustering is with the use of quadratic probing, which is specified by the
+equation:
+
+      slot = ( home + i ^ 2 ) % M
+
+Quadratic probing eliminates primary clustering by increasing the distance between
+each probe in the sequence. When used to build the hash table using the sample set of
+keys, we get seven collisions.
+
+While the number of collisions has increased, the primary clustering has been
+reduced. In practice, quadratic probing typically reduces the number of collisions
+but introduces the problem of secondary clustering. Secondary clustering occurs
+when two keys map to the same table entry and have the same probe sequence. For
+example, if we were to add key 648 to our table, it would hash to slot 11 and
+follow the same probe sequence as key 388. Finally, there is no guarantee the
+quadratic probe will visit every entry in the table. But if the table size is a prime
+number, at least half of the entries will be visited.
+
+
+DOUBLE HASHING.
+
+The quadratic probe distributes the keys by increasing steps in the probe sequence.
+But the same sequence is followed by multiple keys that map to the same table
+entry, which results in the secondary clustering. This occurs because the probe
+equation is based solely on the original hash slot. A better approach for reducing
+secondary clustering is to base the probe sequence on the key itself.
+
+In double hashing, when a collision occurs, the key is hashed by a second function and the
+result is used as the constant factor in the linear probe:
+
+   slot = ( home + i * hp( key ) ) % M
+
+While the step size remains constant throughout the probe, multiple keys that
+map to the same table entry will have different probe sequences. To reduce clustering,
+the second has function should not be the same as the main hash function and it
+should produce a valid index in the range 0 < c < M. A simple choice for the
+second hash function takes the form:
+
+    hp( key ) = 1 + key % P
+
+where P is some constant less than M. For example, suppose we define a second hash
+function:
+
+    hp( key ) = 1 + key % 8
+
+and use it with double hashing to build a hash table from our sample keys. This
+results in only two collisions:
+
+    h( 765 ) > 11
+    h( 431 ) > 2
+    h( 96 )  > 5
+    h( 142 ) > 12
+    h( 579 ) > 7
+    h( 226 ) > 5  > 8
+    h( 903 ) > 6
+    h( 388 ) > 11 > 3
+
+The double hashing technique is most commonly used to resolve collisions
+since it reduces both primary and secondary clustering. To ensure every table
+entry is visited during the probing, the table size must be a prime number.
+
+
+REHASHING.
+
+We have looked at how to use and manage a hash table, but how do we decide
+how big the hash table should be? If we know the number of entries that will be
+stored in the table, we can easily create a table large enough to hold the entire
+collection. In many instances, however, there is no way to know up front how many
+keys will be stored in the hash table. In this case, we can start with a table of
+some given size and then  grow or expand the table as needed to make room for
+more entries. We used a similar approach with a vector. When all available slots
+in the underlying array had been consumed, a new larger array was created and
+the contents of the vector copied to the new array.
+
+With a hash table, we create a new array larger than the original, but we cannot
+simply copy the contents from the old array to the new one. Instead, we have to
+rebuild or rehash the entire table by adding each key to the new array as if it were
+a new key being added for the first time. Remember, the search keys were added
+to the hash table based on the result of the hash function and the result of the
+function is based on the size of the table. If we increase the size of the table, the
+function will return different hash values and the keys may be stored in different
+entries that in the original table. For example, suppose we create a hash table of
+size M = 17 and insert our set of sample keys using a simple linear probe with c = 1.
+Applying the hash function to the keys yields the following results, which
+includes a single collision:
+
+       h( 765 ) > 0
+       h( 431 ) > 6
+       h( 96 )  > 11
+       h( 142 ) > 6  > 7
+       h( 579 ) > 1
+       h( 226 ) > 5
+       h( 903 ) > 2
+       h( 388 ) > 14
+
+You will notice the keys are stored in different locations due to the larger table size.
+As the table becomes more full, the more likely that collisions will occur.
+Experience has shown that hashing works best when the table is no more than
+approximately three quarters full. Thus, if the hash table is to be expanded, it
+should be done before the table becomes full. The ration between the number of
+keys in the hash table and the size of the table is called the "load factor". in
+practice, a hash table should be expanded before the load factor reaches 80%.
+
+The amount by which the table should be expanded can depend on the application,
+but a good rule of thumb is to at least double its size. As we indicated earlier,
+most of the probing techniques can benefit from a table size that is a prime number.
+To determine the actual size of the new table, we can first double the original
+size, 2m and then search for the first prime number greater than 2m. Depending
+on the application and the type of probing used, you may be able to simply double
+the size and add one, 2m + 1. Note that by adding one, the resulting size will be
+an odd number, which results in fewer divisors for the given table size.
+
+EFFICIENCY ANALYSIS.
+
+The ultimate goal of hashing is to provide direct access to data items based on
+the search keys in the hash table. But, as we've seen, collisions routinely occur
+due to multiple keys mapping to the same table entry. The efficiency of the hash
+operations depends on the hash function, the size of the table, and the type of
+probe used to resolve collisions. The insertion and deletion operations both require
+a search to locate the slot into which a new key can be inserted or the slot containing
+the key to be deleted. Once the slot has been located, the insertion and deletion
+operations are simple and only require constant time. The time required to perform
+the search is the main contributor to the overall time of the three hash table
+operations: searching, insertions, and deletions.
+
+To evaluate the search performed in hashing, assume there are n elements
+currently stored in the table of size m. In the best case, which only requires
+constant time, the key maps directly to the table entry containing the target and
+no collision occurs. When a collision occurs, however, a probe is required to find
+the target key. In the worst case, the probe has to visit every entry in the table,
+which requires O(m) time.
+
+Form this analysis, it appears as if hashing is not better than a asic linear search,
+which also requires linear time. The difference, however, is that hashing is
+very efficient in the average case. The average case assumes the keys are uniformly
+distributed throughout the table. It depends on the average probe length and the
+average probe length depends on the load factor. Given the load factor X = n/m  < 1,
+Donald E. Knuth, author of the definitive book series on data structures and
+algorithms, THE ART OF COMPUTER PROGRAMMING, derived equations for the average
+probe length. The times depend on the type of probe used in the search and
+whether the search was successful.
+
+When using a linear probe, the average number of comparisons required to
+locate a key in the hash table for a successful search is:
+
+      1/2 ( 1 + ( 1 / ( 1 - x ) ^ 2 ) )
+
+and for an unsuccessful search :
+
+       1/2 ( 1 + ( 1 / ( 1 - x ) ) )
+
+When using a quadratic probe or double hashing, the average number of comparisons
+required to locate a key for a successful search is :
+
+       -log( 1 - x ) / x
+
+and for an unsuccessful search :
+
+       1 / ( 1 - x )
+
+Based on experiments and the equations above, we can conclude that the hash
+operations only require an average time of O( 1 ) when the load factor is between
+1/2 and 2/3. Compare this to the average times for the linear and binary searches,
+O(n) and O(log n) respectively, and we find that hashing provides an efficient
+solution for the search operation.
+
+
+
+
+SEPARATE CHAINING.
+
+When a collision occurs, we have to probe the hash table to find another available
+slot. In the previous section, we reviewed several probing techniques that can
+be used to help reduce the number of collisions. But we can eliminate collisions
+entirely if we allow multiple keys to share the same table entry. To accommodate
+multiple keys, linked lists can be used to store the individual keys that map to
+the same entry. The linked lists are commonly referred to as chains and this
+technique of collision resolution is known as "separate chaining."
+
+In separate chaining, the hash table is constructed as an array of linked lists.
+The keys are mapped to an individual index in the usual way, but instead of storing
+the key into the array elements, the keys are inserted into the linked list referenced
+from the corresponding entry; there's no need to probe for a different slot. New
+keys can be prepended to the linked list since the nodes are in no particular order.
+
+The search operation is much simpler when using separate chaining. After
+mapping the key to an entry in the table, the corresponding linked list is searched
+to determine if the key is in the table. When deleting a key, the key is again
+mapped in the usual way to find the linked list containing that key. After locating
+the list, the node containing the key is removed from the linked list just as if we
+were removing any other item from a linked list. Since the keys are not stored in
+the array elements themselves, we no longer have to mark the entry as having been
+filled by a previously deleted key.
+
+Separate chaining is also known as "open hashing" since the keys are stored
+outside the table. The term "closed hashing" is used when the keys are stored
+within the elements of the table as described in the previous section. To confuse
+things a bit, some computer scientists also use the terms "closed addressing" to
+describe open hashing and open addressing to describe closed hashing. The use
+of the addressing terms refers to the possible locations of the keys in relation to the
+table entries. In open addressing, the keys may have been stored in an open slot
+different from the one to which it originally mapped while in closed addressing, the
+key is contained within the entry to which it mapped.
+
+The table size used in separate chaining is not as important as in closed hashing
+since multiple keys can be stored in the various linked list. But it still requires
+attention since better key distribution can be achieved if the table size is a prime
+number. In addition, if the table is too small, the linked lists will grow larger
+with the addition of each new key. If the list become too large, the table can be
+rehashed just as we did when using closed hashing.
+
+The analysis of the efficiency for separate chaining is similar to that of closed
+hashing. As before, the search required to locate a key is the most time consuming
+part of the hash operations. Mapping a key to an entry in the hash table can be
+done in one step, but the time to search the corresponding linked list is based
+on the length of that list. In the worst case, the list will contain all of the keys
+stored in the hast table, resulting in a linear time search. As with closed hashing,
+separate chaining is very efficient in the average case. The average time to locate
+a key within the hash table assumes the keys are uniformly distributed across
+the table and it depends on the average length of the linked lists. If the hash
+table contains n keys and m entries, the average list length in n / m, which is the
+same as the load factor. Deriving equations for the average number of searches in
+separate chaining is much easier that with closed hashing. The average number of
+comparisons required to locate a key in the hash table for a successful search is:
+
+          1 + x / 2
+
+and for an unsuccessful search is:
+
+           1 + x
+
+When the load factor is less than 2 ( twice the number of keys as compared to
+the number of table entries ), it can be shown that the hash operations only require
+O(1) time in the average case. This is a better average time than that for closed
+hashing, which is an advantage of separate chaining. The drawback to separate
+chaining, however, is the need for additional storage used by the link fields in the
+nodes of the linked lists.
+
+HASH FUNCTIONS.
+
+The efficiency of hashing depends in large part on the selection of a good hash
+function. As we saw earlier, the purpose of a hash function is to map a set of
+search keys to a range of index values corresponding to entries in a hash table.
+A "perfect" hash function will map every key to a different table entry, resulting
+in no collisions. But this is seldom achieved except in cases like our collection of
+products in which the keys are within a small range or when the keys are known
+beforehand. Instead, we try to design a good hash function that will distribute the
+keys across the range of hash table indices as evenly as possible. There are several
+important guidelines to consider in designing or selecting a hash function:
+
+  - The computation should be simple in order to produce quick results.
+  - The resulting index cannot be random. When a hash function is applied
+    multiple times to the same key, it must always return the same index value.
+
+  - If the key consists of multiple parts, every part should contribute in the computation
+    of the resulting index value.
+
+  - The table size should be a prime number, especially when using the modulus
+    operator. This can produce better distributions and fewer collisions as it tends
+    to reduce the number of keys that share the same divisor.
+
+Integer keys are the easiest to hash, but there are many times when we have to
+deal with keys that are either strings or a mixture of strings and integers. When
+dealing with non-integer keys, the most common approach is to first convert the
+key to an integer value and then apply an integer-based hash function to that value.
+In this section, we first explore several hash functions that can be used with
+integers and then look at common techniques used to convert strings to integer
+values that can then be hashed.
+
+DIVISION.
+
+The simplest hash function for integer values is the one we have been using throughout
+this section. The integer key, or a mixed type of key that has been converted to an
+integer, is divided by the size of the hash table with the remainder becoming
+the hash table index:
+
+             h( key ) = key % M
+
+Computing the remainder of an integer key is the easiest way to ensure the
+resulting index always falls within the legal range of indices. The division technique
+is one of the most commonly used hash functions, applied directly to an integer
+key or after converting a mixed type key to an integer.
+
+TRUNCATION.
+
+For large integers, some columns in the key value are ignored and not used in the
+computation of the hash table index. In this case, the index is formed by selecting
+the digits from specific columns and combining them into an integer within the
+legal range of indices. For example, if the keys are composed of integer values that
+all contain seven digits and the hash table size is 1000, we can concatenate the
+first, third and sixth digits ( counting from right to left ) to form the index value.
+Using this technique, key value 4873152 would hash to index 812.
+
+
+FOLDING.
+
+In this method, the key is split into multiple parts and then combined into a single
+integer value by adding or multiplying the individual parts. The resulting integer
+value is then either truncated or the division method is applied to fit it within
+the range of legal table entries. For example, given a key value 4873152 consisting
+of seven digits, we can split it into three smaller integer values ( 48, 731 and 52 )
+and then sum these to obtain the hash table index. This method can also be used when
+the keys store data with explicit components such as social security numbers or phone
+numbers.
+
+HASH STRINGS.
+
+Strings can also be stored in a hash table. The string representation has to be
+converted to an integer value that can be used with the division or truncation
+methods to generate an index within the valid range. There are many different
+techniques available for this conversion. The simplest approach is to sum the ASCII
+values of the individual characters. For example, if we use this method to hash the
+string "hashing", the result will be :
+
+          104 + 97 + 115 + 104 + 105 + 110 + 103 = 738
+
+This approach works well with small hash tables. But when used with larger
+tables, short string will not hash to the larger index values; they will only be used
+when probed. For example, suppose we apply this method to strings containing
+seven characters, each with a maximum ASCII value of 127. Summing the ASCII
+values will yield a maximum value of 127 * 7 = 889. A second approach that can
+provide good results regardless of the string length uses a polynomial:
+
+          s0a^n-1 + s1a^n-2 + .... + sn-3a^2 + sn-2^a + sn-1
+
+where a is a non-zero constant, si is the ith element of the string, and n is the length
+of the string. if we use this method with the string "hashtag", where a = 27, the
+resulting hash value will be 41746817200. This value can then be used with the
+division method to yield an index value within the valid range.
+
+
+
+
+
+

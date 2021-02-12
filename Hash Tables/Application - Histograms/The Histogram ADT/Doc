@@ -1,0 +1,22 @@
+
+ HISTOGRAM ADT.
+
+A histogram is a container that can be used to collect and store discrete frequency
+counts across multiple categories representing a distribution of data. The category
+objects must be comparable.
+
+  - Histogram( catSeq ): Creates a new histogram containing the categories provided
+    in the given sequence, catSeq. The frequency counts of the categories are
+    initialized to zero.
+
+  - getCount( category ): Returns the frequency count for the given category, which
+    must be valid.
+
+  - incCount( category ): Increments the count by 1 for the given category. The
+    supplied category must be valid.
+
+  - totalCount(): Returns a sum of the frequency counts for all the categories.
+
+  - iterator(): Creates and returns an iterator for traversing over the histogram categories.
+
+  

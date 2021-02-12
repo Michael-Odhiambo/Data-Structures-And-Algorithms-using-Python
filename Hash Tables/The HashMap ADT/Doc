@@ -1,0 +1,28 @@
+
+One of the most common uses of a hash table is for the implementation of a map.
+In fact, Python's dictionary is implemented using a hash table with closed hashing.
+The definition of the Map ADT allows for the use of any type of
+comparable key, which differs from Python's dictionary since the latter requires the
+keys to be hashable. That requirement can limit the efficient use of the dictionary
+since we must define our own hash function for any user-defined types that are to
+be used as dictionary keys. Our hash function must produce good results or the
+dictionary operations may not be very efficient.
+
+In this section, we provide an implementation for the map that is very similar to
+the approach used in implementing Python's dictionary. Since this version requires
+the keys to be hashable, we use the name HashMap to distinguish it from the more
+general Map ADT. For the implementation of the HashMap ADT, we are going to
+use a hash table with closed hashing and a double hashing probe.
+
+The Hash Table.
+
+In implementing the HashMap ADT, we must first decide how big the hash table
+should be. The HashMap ADT is supposed to be a general purpose structure
+that can store any number of key/value pairs. To maintain this property, we must
+allow the hash table to expand as needed. Thus, we can start with a relatively
+small table ( M = 7 ) and allow it to expand as needed by rehashing each time the
+load factor is exceeded. The next question we need to answer is what load factor
+should we use? As we saw earlier, a load factor between 1/2 and 2/3 provides good
+performance in the average case. For our implementation we are going to use a load
+factor of 2/3.
+

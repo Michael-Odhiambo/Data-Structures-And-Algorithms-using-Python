@@ -1,0 +1,103 @@
+
+THE COLOR HISTOGRAM.
+
+A histogram is used to tabulate the frequencies  of multiple discrete categories.
+The Histogram ADT from the previous section works wll when the collection of
+categories is small. Some applications, however, may deal with millions of distinct
+categories, none of which are known up front, and require a specialized version
+of the histogram. One such example is the color histogram, which is used to
+tabulate the frequency counts of individual colors within a digital image. Color
+histograms are used in areas of image processing and digital photography for image
+classification, object identification, and image manipulation.
+
+Color histograms can be constructed for any color space, but we limit our
+discussion to the more common discrete RGB color space. In the RGB color
+space, individual colors are specified by intensity values for the three primary
+colors: red, green and blue. This color space is commonly used in computer
+applications and computer graphics because it is very convenient for modeling the
+human visual system. The intensity values in the RGB color space, also referred
+to as color components, can be specified using either real values in the range
+[0...1] or discrete values in the range [0....255]. The discrete version is the most
+commonly used for the storage of digital images, especially those produced by
+digital cameras and scanners. With discrete values for the three color components,
+more than 16.7 million colors can be represented, far more than humans are capable
+of distinguishing. A value of 0 indicates no intensity for the given component while
+255 indicates full intensity. Thus, white is represented with all three components
+set to 255, while black is represented with all three components set to 0.
+
+We can define an abstract data type for a color histogram that closely follows
+that of the general histogram:
+
+A color histogram is a container that can be used to collect and store frequency counts
+for multiple discrete RGB colors.
+
+   - ColorHistogram(): Creates a new empty color histogram.
+   - getCount( red, green, blue): Returns the frequency count for the given
+     RGB color, which must be valid.
+
+   - incCount( red, green, blue ): Increments the count by 1 for the given RGB
+     color if the color was previously added to the histogram or the color is added
+     to the histogram as a new entry with a count of 1.
+
+   - totalCount(): Returns a sum of the frequency counts for all colors in the
+     histogram.
+
+   - iterator(): Creates and returns an iterator for traversing over the colors in
+     the color histogram.
+
+
+There are a number of ways we can construct a color histogram, but we need a fast
+and memory-efficient approach. The easiest approach would be to use a
+three-dimensional array of size 256 * 256 * 256, where each element in the array
+represents a single color. This approach, however, is far too costly. It would
+require 256 ^ 3 array elements, most of which would go unused. On the other hand,
+the advantage of using an array is that accessing and updating a particular color is
+direct and requires no costly operations.
+
+
+Other options include the use of a python list or a linked list. But these would
+be inefficient when working with images containing millions of colors. In this
+section, we've seen that hashing can be a very efficient technique when used with
+a good hash function. For the color histogram, closed hashing would not be an
+ideal choice since it may require multiple rehashes involving hundreds of thousand,
+if not millions, of colors. Separate chaining can be used with good results, but it
+requires the design of a good hash function and the selection of an appropriately
+sized hash table.
+
+A different approach can be used that combines the advantages of the direct
+access of the 3-D array and the limited memory use and fast searches possible with
+hashing and separate chaining. Instead of using a 1-D array to store the separate
+chains, we can use a 2-D array of size 256 * 256. The colors can be mapped to
+a specific chain by having the rows correspond to the red color component and
+the columns correspond to the green color component. Thus, all colors having the
+same red and green components will be stored in the same chain, with only the
+blue components differing.
+
+Given a digital image consisting of n distinct pixels, all of which may contain
+unique colors, the histogram can be constructed in linear time. This time is derived
+from the fact that searching for the existence of a color can be done in constant time.
+Locating the specific 2-D array entry in which the color should be stored
+is a direct mapping to the corresponding array indices. Determining if the given
+color is contained in the corresponding  linked list requires a linear search over the
+entire list. Since all of the nodes in the linked list store colors containing the same
+red and green components, they only differ in their blue components. Given that
+there are only 256 different blue component values, the list can never contain more
+that 256 entries. Thus, the length of the linked list is independent of the number
+of pixels in the image. This results in a worst case time of O(1) to search for the
+existence of a color in the histogram in order to increment its count or to add a
+new color to the histogram. A search is required for each of the n distinct image
+pixels, resulting in a total time of O(n) in the worst case.
+
+After the histogram is constructed, a traversal over the unique colors contained
+in the histogram is commonly performed. We could traverse over the entire 2-D
+array, one element at a time, and then traverse the linked list referenced from the
+individual elements. But this can be time consuming since in practice, many of the
+elements will contain not contain any colors. Instead, we can maintain a single separate
+linked list that contains the individual nodes from the various hash chains.
+
+When a new color is added to the histogram, a node is created and stored in the
+corresponding chain. If we were to include a second link within the same nodes used
+in the chains to store the colors and color counts, we can the easily add each node to
+a separate linked list. This list can then be used to provide a complete traversal over the
+entries in the histogram without wasting time in visiting the empty elements of the 2-D array.
+

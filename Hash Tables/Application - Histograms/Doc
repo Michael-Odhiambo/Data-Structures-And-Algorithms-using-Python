@@ -1,0 +1,7 @@
+
+Graphical displays or charts of tabulated frequencies are very common in statistics.
+These charts, known as histograms, are used to show the distribution of data
+across discrete categories. A histogram consists of a collection of categories and
+counters. The number and types of categories can vary depending on the problem.
+The counters are used to accumulate the number of occurrences of values within
+each category for a given data collection.
