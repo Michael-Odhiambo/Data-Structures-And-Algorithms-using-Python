@@ -1,0 +1,68 @@
+
+APPLICATION: MORSE CODE.
+
+Morse Code is a type of character encoding originally designed in the late 1830s by
+Samuel Morse for use with his telegraph system. Morse Code allowed messages to
+be transmitted long distances across telegraph wires and was extensively used by
+the American railroad companies. It was first used in 1844 to transmit messages
+between Washington and Baltimore. The original code used various patterns of
+dots and spaces to represent the letters of the alphabet. While this was sufficient
+for use in the United States, the code could not be used in Europe to transmit
+non-English text, which contains diacritic marks. To remedy this shortcoming,
+Friedrich Clemens Gerke improved on the original Morse Code and developed a
+new version that was first used in 1848 to transmit messages in Germany. Gerke's
+version of the code, with minor changes, was standardized in 1851 and became
+known as American Morse Code.
+
+The modern International Morse Code represents various letters, symbols, and
+digits using sequences of dots ( or dits ), dashes ( or dahs ), short gaps, and long gaps.
+The short gaps are used to break the sequence between letters and the long gaps
+are used to separate words. The most famous is the sequence for SOS:
+  ... --- ...
+
+At this point, you might be wondering why we are discussing Morse Code and what
+it has to do with binary trees. Suppose you are given the following sequence:
+             - .-. . . ... .- .-. . ..-. ..- -.
+and would like to know what it means. The most obvious way to decode this message is
+to look through a table for each part of the sequence and find the corresponding letter.
+When decoded, the message reads:
+
+     TREES ARE FUN.
+
+DECISION TREES.
+
+Another way to translate the message is with the use of a decision tree. A decision
+tree models a sequence of decisions or choices in which selections are made in
+stages from among multiple alternatives at each stage. The stages in the decision
+are represented as nodes while the branches indicate the decisions that can be
+made at each stage.
+
+A common use of the decision tree with which you should be familiar is the
+dreaded automated phone menu. When the automated system answers your call, it
+starts at the root of the tree and offers several choices from which you can choose.
+After making your initial selection, you are presented with a submenu from which
+you must make a second selection, and then possibly a third selection, and so on.
+The presentation of the menu options by the automated system are the stages in
+the decision and represented in the tree as nodes. The menu choices from which
+you can select at each stage are indicated by branches from those nodes.
+
+The same idea can be used to decode a Morse Code sequence. While each code
+sequence is unique, they do not have unique prefixes. For example, the sequences
+for the letters R and S both begin with a dot. To distinguish between the two, we
+have to examine more of the sequence. The second symbol in the sequence for R
+is a dash, while the sequence for S has a dot. It's not until the third component
+of the sequence that we can fully distinguish between the R and the S. To confuse
+the situation even more, the letter A is indicated by the two-symbol sequence of
+( .- ), which is the sequence prefix for R.
+
+               A .-    F ..-.     K -.-   P .--.   U ..-
+               B -...  G --.      L .-..  Q --.-   V ...-
+               C -.-.  H ....     M --    R .-.    W .--
+               D -..   I ..       N -.    S ...    X -..-
+               E .     J .---     O ---   T -      Y -.--      Z --..
+
+To help decode a sequence, we can build a decision tree that models Morse Code.
+The nodes represent the letters and symbols that are part of Morse Code and the
+branches provide a selection of either a dot ( left branch ) or a dash ( right branch ).
+The root node is empty and indicates the starting position when decoding a sequence.
+

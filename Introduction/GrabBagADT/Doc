@@ -1,0 +1,4 @@
+
+A Grab bag ADT is similar to the Bag ADT with one difference. A grab bag does not have a remove() operation,
+but in place of it has a grabItem() operation, which allows for the random removal of an item from the bag.
+Implement the Grab Bag ADT.

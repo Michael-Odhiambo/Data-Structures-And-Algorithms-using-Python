@@ -1,0 +1,13 @@
+
+
+IMPLEMENTATION.
+
+Binary trees are commonly implemented as a dynamic structure in the same fashion as linked lists. A binary tree is a
+data structure that can be used to implement many different abstract data types. Since the operations that a binary
+tree supports depend on its application, we are going to create and work with the trees directly instead of creating
+a generic tree class.
+
+Trees are generally illustrated as abstract structures with the nodes represented as circles or boxes and the edges
+as lines or arrows. To implement a binary tree, however, we must explicitly store in each node the links to the two
+children along with the data stroed in that node. We define the _BinTreeNode storage class for creating the nodes in a
+binary tree. 

@@ -1,0 +1,41 @@
+
+THE GAME OF LIFE.
+
+The game of Life is defined for an infinite-sized grid. In Chapter 2, we defined
+the Life Grid ADT to use a fixed-size grid in which the user specified the width
+and height of the grid. This was sufficient as an illustration of the use of a 2-D
+array for the implementation of the game of Life. But a full implementation
+should allow for an infinite-sized grid. Implement the Sparse Life Grid ADT
+using an approach similar to the one used to implement the sparse matrix.
+
+     SparseLifeGrid(): Creates a new infinite-sized game grid. All cells in
+        the grid are initially set to dead.
+        
+     minRange(): Returns a 2-tuple (minrow, mincol) that contains the minimum
+        row index and the minimum column index that is currently occupied
+        by a live cell.
+
+     maxRange(): Returns a 2-tuple (maxrow, maxcol) that contains the maximum
+        row index and the maximum column index that is currently occupied
+        by a live cell.
+
+     configure( coordList ): Configures the grid for evolving the first generation.
+        The coordList argument is a sequence of 2-tuples with each
+        tuple representing the coordinates (r, c) of the cells to be set as alive. All
+        remaining cells are cleared or set to dead.
+
+     clearCell( row, col ): Clears the individual cell (row, col) and sets it
+        to dead. The cell indices must be within the valid range of the grid.
+
+     setCell( row, col ): Sets the indicated cell (row, col) to be alive. The
+        cell indices must be within the valid range of the grid.
+
+     isLiveCell( row,col ): Returns a boolean value indicating if the given
+        cell (row, col) contains a live organism. The cell indices must be within
+        the valid range of the grid.
+
+     numLiveNeighbors( row, col ): Returns the number of live neighbors for
+        the given cell (row, col). The neighbors of a cell include all of the cells
+        immediately surrounding it in all directions. For the cells along the border
+        of the grid, the neighbors that fall outside the grid are assumed to be dead.
+        The cell indices must be within the valid range of the grid.

@@ -1,0 +1,10 @@
+
+A click counter is a small hand-held device that contains a push button and a count display. To increment the
+counter, the button is pushed and the new count shows in the display. Clicker counters also contain a button
+that can be pressed to reset the counter to zero. Design and implement the Counter ADT that functions as a 
+hand-held clicker.
+
+- Counter() - Creates a new counter with an initial value of zero.
+- add() - Increases the counter by 1.
+- clear() - Clears the counter to zero.
+- display() - Shows the current count.

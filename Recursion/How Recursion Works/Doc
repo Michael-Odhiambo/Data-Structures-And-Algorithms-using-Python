@@ -1,0 +1,62 @@
+
+HOW RECURSION WORKS.
+
+When a function is called, the sequential flow of execution is interrupted and
+execution jumps to the body of that function. When the function terminates,
+execution returns to the point where it was interrupted before the function was
+invoked. But how does it know where to return? We know for sure, it's not magic.
+
+The Run Time Stack.
+
+Each time a function is called, an activation record is automatically created in
+order to maintain information related to the function. One piece of information is
+the return address. This is the location of the next instruction to be executed
+when the function terminates. Thus, when a function returns, the address is obtained
+from the activation record and the flow of execution can return to where it left
+off before the function was called.
+
+The activation records also include storage space for the allocation of local
+variables. Remember, a variable created within a function is local to that function
+and is said to have local scope. Local variables are created when a function begins
+execution and are destroyed when the function terminates. The lifetime of a local
+variable is the duration of the function in which it was created.
+
+An activation record is created per function call, not on a per function basis.
+When a function is called, an activation record is created for that call and
+when it terminates the activation record is destroyed. The system must manage
+the collection of activation records and remember the order in which they were
+created. The latter is necessary to allow the system to backtrack or return to the
+next statement in the previous function when an invoked function terminates. It
+does this by storing the activation records on a run time stack.
+
+
+Using A Software Stack.
+
+Using recursion in solving problems is very similar to using the software implemented
+stack structure. In fact, any solution that can be implemented using a
+stack structure can be implemented with recursion, and vice versa. Consider the
+problem of printing in reverse order the items stored in a singly linked list.
+
+Since the links are in one direction, we cannot easily access the nodes in reverse
+order. A brute-force approach to solving this problem would be to use nested loops to
+iterate over the linked list multiple times with each iteration of the inner loop
+ending one node shorter that the previous iteration. This approach has a runtime of O(n^2).
+
+To provide a more efficient solution to the problem, a stack structure can be
+used to push the data values onto the stack, one at a time, as we traverse through
+the linked list. Then, the items can be popped and printed resulting in the reverse
+order listing
+
+A recursive solution for this problem is also possible. To design the solution, we
+use the divide and conquer strategy. With this strategy,
+you solve the larger problem by dividing it into smaller problems of itself and
+solving the smaller parts individually. A linked list is by definition a recursive
+structure. That is, the list can be thought of as a node linked to a sublist of nodes.
+
+If we carry this idea further, then each link in the
+list can be thought of as linking the node to a sublist of nodes.
+With this view of the list, we can print the list in reverse order
+by recursively printing the sublist pointed to by the node and then
+printing the contents of the node itself.
+
+

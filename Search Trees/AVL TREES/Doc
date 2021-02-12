@@ -1,0 +1,147 @@
+
+AVL TREES.
+
+The binary search tree provides a convenient structure for storing and searching data collections. the efficiency of the
+search, insertion and deletion operations depend on the height of the tree. In the best case, a binary tree of size n has
+a height of log n, but in the worst case, there is node per level, resulting in a height of n. Thus, it would be to our
+advantage to try to build a binary search tree that has height of log n.
+
+If we were constructing the tree from the complete set of search keys, this would be easy to accomplish. The keys can be
+sorted in ascending order and then using a technique similar to that employed with the linked list version of the merge
+sort, the interior nodes can be easily identified. But this requires knowing all of the keys upfront, which is seldom the
+case in real applications where keys are routinely being added and removed. We could rebuild the binary search tree each
+time a new key is added or an existing one is removed. But the time to accomplish this would be extreme in comparison to
+using a simple brute-force search on one of the sequential list structures. What we need is a way to maintain the optimal
+tree height in real time, as the entries in the tree change.
+
+The AVL tree, which was invented by G.M. Adel'son-Velskii and Y.M. Landis is 1962, improves on the binary search tree by
+always guaranteeing the tree is height balanced, which allows for more efficient operations. A binary tree is balanced if
+the heights of the left and right subtrees of every node differ by at most 1.
+
+With each node in an AVL tree, we associate a balance factor, which indicates the height difference between the left and
+right branch. The balance factor can be one of three states.
+
+   - left high: When the left subtree is higher than the right subtree.
+   - equal high: When the two subtrees have equal height.
+   - right high: When the right subtree is higher than the left subtree.
+
+The balance factors of the tree nodes are indicated by symbols: > for a left high state, = for the equal high state, and
+< for a right high state. When a node is out of balance, we will use either << or >> to indicate which subtree is higher.
+
+The search and traversal operations are the same with an AVL tree as with a binary search tree. The insertion and deletion
+operations have to be modified in order to maintain the balance property of the tree as new keys are inserted and existing
+ones removed. By maintaining a balanced tree, we ensure its height never exceeds 1.44 log n. This height is sufficient for
+providing O( log n ) time operations even in the worst case.
+
+INSERTIONS.
+
+Inserting a key into an AVL tree begins with the same process used with a binary search tree. We search for the new key in
+the tree and add a new node at the child link where we fall off the tree. When a new node is inserted into an AVL tree, the
+balance property of the tree must be maintained. If the insertion of the new key causes any of the subtrees to become unbalanced,
+they will have to be rebalanced.
+
+ROTATIONS.
+
+Multiple subtrees can become unbalanced after inserting a new key, all of which have roots along the insertion path. But
+only one will have to be rebalanced: the one deepest in the tree and closest to the new node. After inserting the key, the
+balance factors are adjusted during the unwinding of the recursion. The first subtree encountered that is out of balance has
+to be rebalanced. The root node of this subtree is known as the pivot node.
+
+An AVL subtree is rebalanced by performing a rotation around the pivot node. This involves rearranging the links of the pivot
+its children and possibly one of its grandchildren. The actual modifications depend on which descendant's subtree of the pivot
+node the new key was inserted into and the balance factors. There are four possible cases:
+
+     - Case 1: This case, occurs when the balance factor of the pivot node ( P ) is left high before the insertion and the new
+       key is inserted into the left child ( C ) of the pivot node. To rebalance the subtree, the pivot node has to be rotated
+       right over its left child. The rotation is accomplished by changing the links such that P becomes the right child
+       of C and the right child of C becomes the left child of P.
+
+     - Case 2: This case involves three nodes: the pivot ( P ), the left child of the pivot ( C ), and the right child ( G )
+       of C. For this case to occur, the balance factor of the pivot is left high before the insertion and the new key is
+       inserted into the right subree of C. This case requires two rotations. Node C has to be rotated left over node G and
+       the pivot node has to be rotated right over its left child. The link modifications required to accomplish this rotation
+       include setting the right child of G to become the right child of C, and setting C to be the new left child of G.
+
+     - Cases 3 and 4: The third case is a mirror image of the first case and the fourth case is a mirror image of the second
+     case. The difference is the new key is inserted in the right subtree of the pivot node or a descendant of its right subtree.
+
+
+NEW BALANCE FACTORS.
+
+When a new key is inserted into the tree, the balance factors of the nodes along the path from the root to the insertion point
+have to be modified to reflect the insertion. The balance factor of a node along the path changes if the subtree into which
+the new node was inserted grows taller. The new balance factor of a node depends on its current balance factor and the subtree
+into which the new node was inserted.
+
+Modifications to the balance factors are made in reverse order as the recursion unwinds. When a node has a left high balance
+and the new node is inserted into its left child or it has a right high and the new node is inserted into its right child,
+the node is out of balance and its subtree has to be rebalanced. After rebalancing, the subtree will shrink by one level,
+which results in the balance factors of its ancestors remaining the same. The balance factors of the ancestors will also
+remain the same when the balance factor changes to equal high.
+
+After rotation is performed, the balance factor of the impacted nodes have to be changed to reflect the new node heights. The
+changes required depend on which of the four cases triggered the rotation. The balance factor settings in cases 2 and 4 depend
+on the balance factor of the original pivot nodes grandchild ( the right child of node L or the left child of node R ).
+
+DELETIONS.
+
+When an entry is removed from an AVL tree, we must ensure the balance property is maintained. As with the insert operation,
+deletion begins by using the corresponding operation from the binary search tree. After removing the targeted entry, subtrees
+may have to be rebalanced. As with an insertion, the only subtrees that can become unbalanced are those along the path from the
+root to the original node containing the target. Remember, if the key being removed is is an interior node, its successor is located
+and copied to the node and the successor's original node is removed. In the insertion operation, at most, one subtree can be
+unbalanced. After the appropriate rotation is performed on the subtree, the balance factors of the node's ancestors do not
+change. Thus, it restores the height-balance property both locally at the subtree and globally for the entire tree. This is not
+the case with a deletion. When a subtree is rebalanced due to a deletion, it can cause the ancestors of the subtree to then become
+unbalanced. This effect can ripple up all the way to the root node. So, all of the nodes along the path have to be evaluated
+and rebalanced if necessary.
+
+
+IMPLEMENTATION.
+
+The implementation of the non-helper methods is very similar to that of the binary search tree version. Since the traversal
+and search operations of the AVL tree are identical to those of the binary search tree, the valueOf() method can use the
+_bstSearch() helper method and the __iter__ method can create an instance of the _BSTMapIterator. Of course, we assume the
+implementation of these components are included within the AVLMap class. The only change required to the add() and remove()
+methods is that each method must call an AVL specific helper method.
+
+The nodes in an AVL tree must store their balance factor in addition to the key, data and two child links. We also create and
+initialize three named constants to represent the three balance factor values. By using named constants, we avoid possible
+confusion in having to remember what value represents which of the possible balance factors.
+
+The implementation of the insertion operation is divided into several helper methods for a better modular solution. First,
+we provide helper methods for performing the left and right rotations. A right rotation on a given pivot node is performed
+using _avlRotateRight(). The _avlRotateLeft() function handles a left rotation. Both methods return a reference to the new
+root node of the subtree after the rotation.
+
+When a subtree becomes unbalanced, we have to determine which of the four possible cases caused the event. Cases 1 and 3 occur
+when the left subtree of the pivot node is two levels higher than the right subtree, whereas cases 2 and 4 occur when the right
+subtree becomes two levels higher than the left. We divide the cases into two groups based on which subtree of the pivot node
+is higher.
+
+The _avlLeftBalance() method, handles the rotations when the left subtree is higher. To distinguish between the two cases, we have
+to examine the balance factor of the pivot node's left child. Case one occurs when the left child has a factor of left high
+( its left child is higher ). For this case, the balance factors are adjusted appropriately and a right rotation is performed
+using the _avlRightRotate() method. Case 3 occurs when the balance factor of the left child of the pivot node is right high.
+Note that the case of pivot's left child having equal balance can never occur, so we do not have to check for this condition.
+After setting the balance factors, case 3 requires a double rotation. We first perform a left rotation on the right child
+( C ) of the pivot node. The root node of the subtree resulting from this rotation becomes the new left child of the pivot node.
+A right rotation is then performed on the pivot node, resulting in the grandchild ( G ) of the original pivot node becoming
+the new root node. the _avlRightBalance() method can be implemented in a similar fashion.
+
+The insert operation for the binary search tree returned a reference to the existing subtree or the new node, depending on the current
+invocation of the recursive function. When inserting into an AVL tree, the method must also return boolean flag indicating if the
+subtree grew taller. Inorder to return both values, the _avlInsert function returns a tuple with the first element containing
+the node reference and the second containing the boolean flag.
+
+Finding the location of the new key and linking its node into the trees uses the same navigation technique as in the binary
+search tree. The real difference between the insertions into a BST and an AVL tree occurs during the unwinding of the recursion.
+We have to check to see if the subtree we just visited has grown taller. A taller child subtree means we have to check to see
+if the current subtree is out of balance and needs to be rebalanced. Regardless if the subtree is out of balance, the balance
+factor of the current subtree's root node has to be modified. If a subtree did not grow taller, nothing needs to be done.
+
+As the recursion unwinds, the growth status has tb be passed back to the parent of each subtree. there are only three circumstances
+when a subtree grows taller. The first is when a new node is created and linked into the tree. Since the child link in the parent
+of the new node was originally null, the new node grows from an empty subtree to a subtree of height one. A subtree an also
+grow taller when its children were originally of equal height and one of the child subtrees has grown taller. In all other
+instances, the subtree does not grow. Indicating the growth of a subtree is spread throughout the _avlInsert() method as appropriate.

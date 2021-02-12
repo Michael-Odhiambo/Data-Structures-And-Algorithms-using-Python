@@ -1,0 +1,43 @@
+
+THE SPARSE MATRIX.
+
+A common use of the multi-linked list is an alternative implementation of the sparse matrix ADT. Earlier, we
+designed a solution for the sparse matrix using a Python list to store the non-zero elements. We improved on
+the original solution by using an array of linked lists to store the non-zero elements with a separate list
+for each row in the matrix. While both improved on the 2-D array implementation, the latter provided more
+efficient solutions for many of the operations since traversals could be limited to a per-row basis instead of
+a complete traversal of all non-zero elements. Some matrix operations and applications, however, require
+traversals in column order instead of row order. By organizing the non-zero elements based on the matrix rows,
+the time required in these cases can actually be worse than with a single linked list.
+
+To provide convenient traversals of both rows and columns, we can use a multi-linked organization. The nodes are
+linked by two chains along the respective row and column. This requires two arrays of linked lists, one for the row
+and another for the column lists.
+
+An individual element can be accessed by traversing the row chain or the column chain as needed. This dual access
+requires that each node contain both the row and column indices in addition to the two link fields.
+
+COMPLEX ITERATORS.
+
+The iterators designed and used in earlier chapters were examples of simple iterators since we only needed to maintain
+a single traversal variable. A more complex example would be the addition of an iterator for the SparseMatrix class
+implemented as an array of linked lists in the for the previous implementation or the multi-linked list version defined
+here. Both of these implementations used an array of linked lists to store the matrix elements. To build an iterator in
+this case, we must keep track of the array of linked lists and both the current row within the array and the current
+node within the linked list for the given row.
+
+When the iterator is first created, the constructor must initialize the _curRow and _curNode fields to reference the
+first node in the first non-empty row. Since every row in the sparse matrix does not necessarily contain elements, we
+must search for the first node. This same operation will be required when advancing through the sparse matrix as we
+reach the end of each row, so we include the _findNextElement() helper method to find the next node in the array of
+linked lists.
+
+To find the next node, the helper method starts at the current row and increments a counter until the next non-empty
+row is found or all rows have been processed. If the counter references a non-empty row, _curNode is set to the first
+node in that list. Otherwise, it is set to None, which will signal the end of the traversal loop.
+
+The next() method of the _SparseMatrixIterator class need only examine the _curNode field to determine if the
+StopIteration exception should be raised or a value is to be returned. If _curNode is not null, we first save the value
+from the current node and then advance the reference to the next node in the list. When reaching the end of the linked
+list representing the current row, the _findNextElement() must be called to search for the next non-empty row in the
+array of linked lists. The operation concludes by returning the value saved before advancing _curNode to the next node.

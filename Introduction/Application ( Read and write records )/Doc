@@ -1,0 +1,5 @@
+
+Design and implement a complete program that extracts student records
+from a text file, sorts them by either student id or student name, and
+displays them to the terminal using your ADT. The choice of sort keys
+should be extracted from the user.

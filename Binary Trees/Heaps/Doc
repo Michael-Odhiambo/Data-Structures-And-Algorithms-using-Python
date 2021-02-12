@@ -1,0 +1,58 @@
+
+IMPLEMENTATION.
+
+Throughout our discussion, we have used the abstract view of a binary tree with nodes and edges to illustrate the heap
+structure. While a heap is a binary tree, it's seldom, if ever, implemented as a dynamic linked structure due to the need
+of navigating the tree both top-down and bottom-up. Instead, we can implement a heap using an array or vector to physically
+store the individual nodes with implicit links between the nodes.
+
+Node Access.
+
+Since a heap is a complete tree, it will never contain holes resulting from missing internal nodes. Thus, the root will
+always be at position 0 within the array and its two children will always occupy elements 1 and 2. In fact, the children
+of any given node will always occupy the same elements within the array. This allows us to quickly locate the parent of
+any node or the left and right child of any node. Given the array index i of a node, the index of the parent or children
+of that node can be computed as :
+
+parent = ( i - 1 ) // 2
+left = 2 * i + 1
+right = 2 * i + 2
+
+Determining if a node's child link is null is simply a matter of computing the index of the appropriate child and testing
+to see if the index is out of range.
+
+Class Definition.
+
+We define the MaxHeap class for our array-based implementation of the max-heap. An array-based version of the heap structure
+is commonly used when the maximum capacity of the heap is known beforehand. If the maximum capacity is not known, then a Python
+list structure can be used instead. The array is created with a size equal to the maxSize argument supplied to the constructor
+and assigned to _elements. Since we will be adding one item at a time to the heap, the items currently in the heap will only
+use a portion of the array, with the remaining elements available for new items. The _count attribute keeps track of how many
+items are currently in the heap.
+
+The first step when adding a new item to a heap is to link a new leaf node in the rightmost position on the lowest level. In
+the array implementation, this will always be the next position following the last heap item in the array. After inserting the
+new item into the array, it has to be sifted up the tree to find its correct position.
+
+To extract the maximum value from a max-heap, we first have to copy and save the value in the root node, which we know is
+in index position 0. Next, the root value has to be replaced with the value from the leaf node that is in the rightmost position
+on the lowest level of the tree. In the array implementation, that leaf node will always be the last item of the heap stored in
+linear order within the array. After copying the last heap item to the root node, the new value in the root node has to be
+sifted down the tree to find its correct position.
+
+The implementation of the sift-down operation is straighforward. After determining the indices of the node's left and right
+child, we determine which of the three values is larger: the value in the node, the value in the node's left child, or the
+value in the node's right child. If one of the two children contains a value greater than or equal to the value in the node:
+(1) it has to be swapped with the value in the current node and (2) the sift-down operation has to be repeated on that child.
+Otherwise, the proper position of the value being sifted down has been located and the base case of the recursive operation
+is reached.
+
+Analysis.
+
+Inserting an item into a heap implemented as an array requires O( log n ) time in the worst case. Inserting the new item at
+the end of the sequence of heap items can be done in O(1) time. After the new item is inserted, it has to be sifted up the
+tree. The worst case time of the sift-up operation is the maximum number of levels the new item can move up the tree. A new
+item always begins in a leaf node and may end up in the root node, which is a distance equal to the height of the tree.
+Since a heap is a complete binary tree, we know its height is always log n.
+
+Extracting an item from a heap implemented as an array also requires O( log n ) time in the worst case.

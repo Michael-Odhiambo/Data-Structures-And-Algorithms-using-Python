@@ -1,0 +1,25 @@
+
+A grayscale digital image is a two-dimensional raster image in which the picture elements, 
+or pixels, store a single value representing a shade of gray that
+varies from black to white. In a discrete grayscale image, the shades of gray are
+represented by integer values in the range [0 . . . 255], where 0 is black and 255
+is white. 
+We can define the Grayscale Image ADT for storing and manipulating discrete 
+grayscale digital images. Given the description of the operations,
+provide a complete implementation of the ADT using a 2-D array.
+
+        GrayscaleImage( nrows, ncols ): Creates a new instance that consists
+               of nrows and ncols of pixels each set to an initial value of 0.
+
+        width(): Returns the width of the image.
+        height(): Returns the height of the image.
+        clear( value ): Clears the entire image by setting each pixel to the given
+               intensity value. The intensity value will be clamped to 0 or 255 if it is less
+               than 0 or greater than 255, respectively.
+
+        getitem ( row, col ): Returns the intensity level of the given pixel. The
+               pixel coordinates must be within the valid range.
+               
+        setitem ( row, col, value ): Sets the intensity level of the given pixel
+               to the given value. The pixel coordinates must be within the valid range.
+               The intensity value is clamped to 0 or 255 if it is outside the valid range.

@@ -1,0 +1,24 @@
+
+Anyone who is involved in many activities typically uses a calendar to keep
+track of the various activities. Colleges commonly maintain several calendars
+such as an academic calendar, a school events calendar, and a sporting events
+calendar. We have defined an Activities Calendar ADT below that can keep
+track of one activity per day over a given range of dates. Select a data structure
+and implement the ADT.
+
+  ActivitiesCalendar( dateFrom, dateTo ): Creates a new empty activities calendar initialized
+   to the given range of dates. The date range can be specified for any non-overlapping period. 
+   The only requirements are that dateFrom must precede dateTo and dateTo cannot overlap the day
+   and month of dateFrom for the next year.
+  length (): Returns the number of activities on the calendar.
+  getActivity( date ): Returns the string that describes the activity for
+    the given date if an activity exists for the given date; otherwise, None is
+    returned.
+  addActivity( date, activity ): Adds the given activity description to
+    the calendar for the given date. The date must be within the valid date
+    range for the calendar.
+  displayMonth( month ): Displays to standard output all activities for the
+    given month. The display includes the year and name of the month and
+    the list of activities for the month. The display of each activity includes
+    the day of the month on which the activity occurs and the description
+    of the activity.

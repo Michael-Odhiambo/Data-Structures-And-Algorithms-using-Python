@@ -1,0 +1,361 @@
+
+APPLICATION: TEXT EDITOR.
+
+If you have used a computer, it's very likely you have used a text editor. Text
+editors allow us to enter text to create documents or to enter information into
+form fields like those found on some web pages. Editors can be very complex
+like a word processor or rather simple like Microsoft's NotePad. No matter the
+complexity, all text editors must maintain and manage the text as the user enters,
+deletes, and manipulates characters and lines. In this section, we define an Edit
+Buffer ADT, which can be used by a simple text editor to store and manage the
+text of a document being manipulated by the actual editor. The ADT is
+defined independent of the text editor and only contains operations necessary for
+the storage and manipulation of plain text. This ADT is not meant to be used by
+more complex editors such as those that perform syntax highlighting or even by
+word processors, which must also maintain character properties like font style and
+size. We conclude with an implementation of our Edit Buffer ADT and discuss
+other alternatives.
+
+Typical Editor Operations.
+
+While the design and implementation of an actual text editor is beyond the scope
+of this textbook, the examination of an edit storage buffer is not. We begin our
+discussion by examining the workings of typical text editors that will aide in the
+design of our ADT.
+
+Layout.
+
+Text editors typically work with an abstract view of the text document by assuming
+it is organized into rows and columns. The physical storage of a text document depends
+on the underlying data structure, though when stored on disk, the text file is simply
+a sequential stream of characters. The end of each line in a text document contains a
+newline character (\n) resulting in rows of varying sizes of unlimited length. An
+empty document is assumed to contain a single blank line where a blank line would
+consist of a single newline character.
+
+Text Cursor.
+
+Text editors also use the concept of a cursor to mark the current position within
+the document. The cursor position is identified by row and an offset or character
+position within the given row. All basic insertion and deletion operations are
+performed relative to the cursor. Note that for this example, we consider the cursor
+to be the keyboard or text cursor and not the cursor related to the use of the mouse.
+
+The cursor can be moved and positioned anywhere within the document, but
+only to a spot currently containing a character. Thus, you cannot randomly place
+characters within a document as if you were writing on a piece pf paper. To position
+text within a document, you must fill the document with blank lines and spaces
+as necessary. The minimum cursor movements available with most text editors
+include:
+
+- Vertical movement which the cursor is moved one or more lines up or down
+  from the current line. When the cursor is moved in the vertical direction, it
+  typically maintains the same character position on the line to which it was
+  moved. If this line is shorter than the one from which the cursor was moved,
+  the cursor is typically positioned at the end of the line.
+
+- Horizontal movement along the current line in which the cursor moves either
+  forward or backward. When the cursor reaches the beginning of the line,
+  it wraps backward to the end of the previous line; when it reaches the end of the
+  line, it wraps forward to the beginning of the next line. Thus, the cursor moves
+  about the text document as if moving within a stream of text like that stored
+  in a text file.
+
+- Movement to the document and line extremes. The cursor can typically be
+  moved to the front or back of the current line or to the beginning or end of
+  the document. In the latter case, the cursor is typically moved to the front of
+  the last row in the document.
+
+Inserting Text.
+
+Most text editors use an entry mode of either "insert", in which new characters
+are inserted into the text, or "overwrite", in which new characters replace existing
+characters. In either mode, characters are inserted into the document at the cursor
+position. When using insert mode, all characters on the same line from the cursor
+to the end of the line are shifted down and the new character is inserted at the
+current position. This differs from overwrite mode, in which new characters simply
+replace or overwrite the character at the cursor position. In both cases, the cursor
+is then shifted one position to the right on the same line.
+
+The newline characters that are used to indicate the end of a line can be treated
+line any other character. If new characters are inserted immediately before
+a newline character, the line is automatically extended. When inserting text after
+a newline character, you are technically inserting the text at the beginning of the
+next line in front of the first character on that line. When a newline character is
+inserted, a line break is created at the insertion point, resulting in the current line
+being split into two lines. The new line is always inserted immediately following
+the line being split.
+
+Deleting Text.
+
+Most text editors provide both a delete and rub-out operation for removing
+individual characters from a document. These are typically mapped to the Delete
+and Backspace keys, respectively. Both operations delete a character and shift all
+following characters on the same line forward one position. the difference between
+the two operations is which character is deleted and what happens to the cursor
+afterward. In the delete operation, the character at the cursor position in removed
+and the cursor remains at the same position. The rub-out operation, on the other
+hand, removes the character preceding the cursor and then moves the cursor one
+position to the left.
+
+When a newline character is deleted, the current line and the one immediately
+following are merged. The newline character at the end of the last line in the
+document cannot be deleted.
+
+Most text editors provide other text manipulation operations such as truncating
+a line from the cursor position to the end of the line. This operation typically does
+not remove the newline character at the end of the line, but instead simply deletes
+the non-newline characters from the cursor position to the end of the line. Some
+editors may also provide an operation to delete the entire line on which the cursor
+is positioned.
+
+The Edit Buffer ADT.
+
+We are now ready to define an Edit Buffer ADT that can be used with a simple
+text editor. Our definition is based on the description of text editors presented
+above. In order to keep the example simple, we limit the operations available with
+our ADT.
+
+An edit buffer is a text buffer that can be used with a text editor for storing and
+manipulating the text as it is being edited. The buffer stores plain text with no
+special formatting or markup codes, other than the common ASCII special characters
+like tabs and newlines. Individual lines are terminated with a newline character.
+The current cursor position is maintained and all operations are performed relative
+to this position. The cursor can only be positioned where a character currently
+exists. The cursor can never be moved outside the bounds of the document. The
+buffer can insert characters in either insert or overwrite entry mode.
+
+- EditBuffer(): Creates a new and empty edit buffer. An empty buffer always contains
+  a single blank line and the cursor is place at the first position of this blank line.
+  The entry mode is set to insert.
+
+- numLines(): Returns the number of lines in the text buffer.
+
+- numChars(): Returns the length of the current line that includes the newline character.
+
+- lineIndex(): Returns the line index of the line containing the cursor. The first
+  line has an index of 0.
+
+- columnIndex(): Returns the column index of the cursor within the current line. The
+  first position in each line has an index of 0.
+
+- setEntryMode( insert ): Sets the entry mode to either insert or overwrite based on
+  the value of the boolean argument insert.
+
+- toggleEntryMode(): Toggles the entry mode to either insert or overwrite based on the
+  current mode.
+
+- inInsertMode(): Returns true if the current entry mode is set to insert and false otherwise.
+
+- getChar(): Returns the character at the current cursor position.
+
+- getLine(): Returns the contents of the current line as a string that includes the
+  newline character.
+
+- moveUp( num ): Moves the cursor up num lines. The cursor is kept at the same
+  character position unless the new line is shorter, in which case the cursor is
+  placed at the end of the new line. The num is negative, and the cursor position
+  is not changed.
+
+- moveDown( num ): The same as moveUp() except the cursor is moved down.
+
+- MoveDocHome(): Moves the cursor to the document's home position, which is the first
+  line and first character position in that line.
+
+- moveDocEnd(): Moves the cursor to the document's end position, which is the last line
+  and first character position in that line.
+
+- moveLeft(): Moves the cursor to the left one position. The cursor is wrapped to the
+  end of the previous line if it is currently at the front of a line.
+
+- moveRight(): Moves the cursor to the right one position. the cursor is wrapped to
+  the beginning of the next line if it is currently positioned at the end of a line.
+
+- moveLineHome(): Moves the cursor to the front of the current line at the first
+  character position.
+
+- moveLineEnd(): Moves the cursor to the end of the current line.
+
+- breakLine(): Starts a new line at the cursor position. A newline character is inserted
+  at the current position and all characters following are moved to a new line. The new
+  line is inserted immediately following the current line and the cursor is adjusted to
+  be at the first position of the new line.
+
+- deleteLine(): removes the entire line containing the cursor. The cursor is then moved
+  to a new line. The new line is inserted immediately following the current line and the
+  cursor is adjusted to be at the first position of the new line.
+
+- deleteLine(): Removes the entire line containing the cursor. The cursor is then moved
+  to the front of the next line. If the lien being deleted is the last line, the cursor
+  is moved to the front of the previous line.
+
+- truncateLine(): Removes all of the characters at the end of the current line starting
+  at the cursor position. The newline character is not removed and the cursor is left at
+  the end of the current line.
+
+- addChar( char ): Inserts the given character into the buffer at the current position.
+  If the current entry mode is insert, the character is inserted and the following
+  characters on that line are shifted down; in overwrite mode, the character a the current
+  position is replaced. If the cursor is currently at a newline character and the entry mode
+  is overwrite, the new character is inserted at the end of the line. the cursor is advanced
+  one position. If char is the newline character, then a line break occurs, which is the same
+  as calling breakLine()
+
+- deleteChar(): Removes the character at the current position and leaves the cursor at the
+  same position.
+
+- ruboutChar(): Removes the character preceding the current position and moves the cursor
+  left one position. If the cursor is currently at the front of the line, the newline character
+  on the preceding line is removed and the current line and the preceding line are merged into
+  a single line.
+
+- deleteAll(): Deletes the entire contents of the buffer and resets it to the same state
+  as in the constructor.
+
+The definition of the ADT includes the operations sufficient for use with a simple text
+editor. All of the information needed by an editor to display or manipulate text is available
+through the defined operations.
+
+Implementation.
+
+Many different data structures can be used to implement the Edit Bugger ADT.
+The choice can depend on the type of editor with which the buffer will be used.
+For example, when editing a field within a dialog box or web page, the editing
+capabilities and the buffer size are usually limited. But a full-blown text editor like
+JEdit or Notepad requires a dynamic buffer, which can grow and shrink in size.
+
+For our implementation, we are going to use a doubly linked list of Python lists,
+which provides dynamic capabilities in terms of growing and shrinking the buffer
+as needed while providing quick line insertions and deletions. The individual lines
+of text will be stored in the nodes of the doubly linked list while the individual
+characters within the lines will be stored in Python lists.
+
+The use of a linked list provides fast line insertions and deletions as text is added
+and removed. The doubly linked version allows for quick movement within the buffer both
+forward and backward as the user navigates among the lines of text. The choice of the
+vector to store the individual characters allows for quick modifications as characters
+are added and deleted. Existing characters can be directly modified or deleted and
+new characters inserted without the overhead required when using strings. Although the
+Python list does require resizing, it's typical for individual lines of text on average
+to be relatively short.
+
+Several of the operations simply provide status information and are straightforward in
+their implementation. These are provided without commentary. Others are more involved
+and require a brief discussion, which is provided below.
+
+Constructor
+
+The constructor is defined in lines 5–11 of Listing 9.11. The firstLine and
+lastLine reference variables act as the head and tail pointers for the doubly
+linked list. The number of lines in the buffer is maintained using numLines and
+the current entry mode is specified by the boolean insertMode. The current
+cursor position within the buffer must be tracked, which is done using curLine
+and curColNdx. The former is a linked list external reference since it points to
+a node in the doubly linked list and the latter is an index value referencing a
+position within the vector for the current line. The line number on which the
+cursor is currently positioned is also maintained since it will be needed by the
+getLine() method.
+
+The ADT definition calls for a newly created buffer to be initially set to empty.
+While an empty buffer contains no visible characters, it will contain a single blank
+line that consists of a lone newline character. A node is created and initialized with
+a vector containing a single newline character. The nodes in the doubly linked list
+will be instances of the EditBufferNode class, the definition of which is provided
+in lines 126–130. The cursor is initially placed at the home position, which in an
+empty document corresponds to the newline character in the newly created blank
+line. Finally, the initial entry mode is set to insert mode.
+
+Cursor Movement.
+
+A number of operations in the Edit Buffer ADT handle movement of the cursor,
+which allows for character manipulation at different points in the buffer. These
+routines modify the current cursor position by appropriately adjusting the curLine,
+curLineNdx, and curColNdx fields.
+
+Vertical movement of the cursor is handled by four methods: moveDocHome(),
+moveDocEnd(), moveDown(), and moveUp(). The cursor can be moved up or down
+one line or multiple lines at a time but it can never be moved outside the valid range.
+Implementation of the moveUp() method is provided in lines 53–64 of Listing 9.11.
+By definition, the number of lines the cursor is to be moved must be positive,
+otherwise the cursor is not moved. In addition, the cursor cannot be moved further
+up than the first line in the document. These conditions are evaluated by the first
+two logical expressions. If nlines would result in the cursor being moved beyond
+the first line, nlines has to be adjusted to limit the movement to the first line.
+Next, a for loop is used to move the curLine reference up the indicated number of
+lines followed by curLineNdx being adjusted appropriately. Finally, we determine
+if the horizontal position of the cursor must be adjusted. If the line to which the
+cursor has been moved is shorter than the previous line, then the cursor must be
+positioned at the end of the new line.
+
+Horizontal movement of the cursor is managed by four methods: moveLeft(),
+moveRight(), moveLineHome(), and moveLineEnd(). Moving the cursor to the
+beginning or end of a line simply requires modifying the value of curColNdx.
+Moving the cursor horizontally one space can be as simple as adjusting curColNdx
+by one, except when the cursor is at the beginning or ending of the line when moving
+left or right, respectively.
+
+Implementation of the moveLeft() method is provided in lines 67–73. When
+moving left one space and the cursor is at the beginning of the line, the cursor must
+be moved to the end of the previous line. This can be accomplished by moving
+the cursor up one line and then to the end of that line. Of course this is only done
+if the current line is not the first line in the buffer. Moving right one space can
+be implemented in a similar fashion. The implementation of the remaining cursor
+movement methods is left as an exercise.
+
+Modifying the Buffer.
+
+Moving the cursor is somewhat easier than modifying the contents of the buffer.
+Most modifications must consider the newline character, which may require splitting
+ a line or merging two lines depending on the specific operation. We begin our
+look at buffer modifications with the operation of adding a single character.
+The action taken when adding a character in the addChar() method, shown
+in lines 98–110 of Listing 9.11, depends on the entry mode and what character is
+being added. In either mode, when adding a newline character, the result is the
+same as breaking a line at the current position and thus this can be done with the
+breakLine() method.
+
+When the current entry mode is set to insert, the character is always inserted
+into the vector at the current cursor position, which causes the following characters
+on the same line to shift down one place. When inserting a character at the end of
+the line, we are actually inserting it immediately preceding the newline character.
+Thus, the newline character will always be the last character in the vector. The
+action taken when adding a character in overwrite mode depends on the position of
+the cursor. When the cursor is at the end of line, characters are inserted in the same
+fashion as if the entry mode was set to insert. The newline character is never
+overwritten. Otherwise, the new character simply replaces the character at the
+cursor position. After adding a new character, the cursor is always moved to the
+right one place. This can be done by simply adding one to curColNdx since
+the cursor never moves to the next line during an add operation unless a newline
+character is being added. The latter case is handled by the breakLine() method.
+Deleting a character from the buffer is straightforward if the character is not the
+newline character. It only requires removing or popping the character at the current
+cursor position within the vector containing the current line.
+
+Deleting a newline character requires the merging of two lines, the current line
+with the following one. Of course the newline character of the last line in the buffer
+cannot be deleted. Thus, this condition must first be checked before merging the
+two lines. Merging the two lines requires several steps. First, the newline character
+on the current line must be removed and the current line extended by appending
+to it the contents of the next line. Then, the node and buffer entry for the next
+line must be removed from the doubly linked list. This step is performed using the
+removeNode() helper method, the implementation of which is left as an exercise.
+The helper method also handles the final step in merging the two lines, which is
+to decrement the line count by one.
+
+Splitting a Line.
+
+We conclude our discussion with the breakLine() method, the implementation of
+which is provided in lines 84–95 of Listing 9.11. This operation splits a line into
+two lines at the current cursor position with the character at the cursor position
+becoming part of the new line. Figure 9.16 illustrates the sample buffer after
+splitting the third line at the letter “i” of the word “in.”
+
+
+The contents at the end of the current line vector starting at the cursor position
+will form the new line. We first extract and save this text by creating a slice from
+the current line. The part of the vector from which we created the slice is then
+deleted and a newline character is appended. We use the insertNode() helper
+method to then insert a new line into the buffer. The helper method inserts a
+new node following the one pointed to by curLine and containing the supplied
+contents. The last step required in breaking the current line is to move the cursor
+to the front of the new line.

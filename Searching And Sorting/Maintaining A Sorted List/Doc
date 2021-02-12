@@ -1,0 +1,22 @@
+
+Maintaining a Sorted List.
+
+To maintain a sorted list in real time, new items must be inserted into their proper
+position. The new items cannot simply be appended at the end of the list as they
+may be out of order. Instead, we must locate the proper position within the list
+and use the insert() method to insert it into the indicated position.
+
+To find the position of a new item within a sorted list, a modified version of the
+binary search algorithm can be used. The binary search uses a divide and conquer
+strategy to reduce the number of items that must be examined to find a target
+item or to determine the target is not in the list. Instead of returning True or
+False indicating the existence of a value, we can modify the algorithm to return
+the index position of the target if it’s actually in the list or where the value should
+be placed if it were inserted into the list.
+
+Note the change to the two return statements. If the target value is contained
+in the list, it will be found in the same fashion as was done in the original version
+of the algorithm. Instead of returning True, however, the new version returns its
+index position. When the target is not in the list, we need the algorithm to identify
+the position where it should be inserted.
+

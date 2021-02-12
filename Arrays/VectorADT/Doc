@@ -1,0 +1,42 @@
+
+While Python provides the built-in list type for constructing and managing
+mutable sequences, many languages do not provide such a structure, at least
+not as part of the language itself. To help in further understanding how
+Python’s built-in list works, implement the Vector ADT using the Array class
+implemented in the chapter. 
+
+Your implementation should produce a mutable
+sequence type that works like Python’s list structure. When the underlying
+array needs to be expanded, the new array should double the size of the
+original. The operations that can be performed on the ADT are described
+below. Assume the size of the underlying array never decreases.
+
+        Vector(): Creates a new empty vector with an initial capacity of two
+               elements.
+        length (): Returns the number of items contained in the vector.
+        contains ( item ): Determines if the given item is contained in the vector.
+        getitem ( ndx ): Returns the item stored in the ndx element of the list.
+               The value of ndx must be within the valid range.
+        setitem ( ndx, item ): Sets the element at position ndx to contain the
+               given item. The value of ndx must be within the valid range, which
+               includes the first position past the last item.
+        append( item ): Adds the given item to the end of the list.
+        insert( ndx, item ): Inserts the given item in the element at position
+               ndx. The items in the elements at and following the given position are
+               shifted down to make room for the new item. ndx must be within the
+               valid range.
+        remove( ndx ): Removes and returns the item from the element from the
+               given ndx position. The items in the elements at and following the given
+               position are shifted up to close the gap created by the removed item. ndx
+               must be within the valid range.
+
+        indexOf( item ): Returns the index of the vector element containing the
+               given item. The item must be in the list.
+        extend( otherVector ): Extends this vector by appending the entire contents of
+               the otherVector to this vector.
+        subVector( from, to ): Creates and returns a new vector that contains
+               a subsequence of the items in the vector between and including those
+               indicated by the given from and to positions. Both the from and to
+               positions must be within the valid range.
+        iterator (): Creates and returns an iterator that can be used to traverse
+               the elements of the vector.

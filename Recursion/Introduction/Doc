@@ -1,0 +1,36 @@
+Recursion is a process for solving problems by subdividing a larger problem into smaller cases of the
+problem itself and then solving the smaller, more trivial parts. Recursion is a powerful programming and
+problem-solving tool. It can be used with a wide variety of problems from basic traditional iterations to
+the more advanced backtracking problems. While recursion is very powerful, recursive solutions are not
+always the most efficient. In some instances, however, recursion is the implementation of choice as it
+allows us to easily develop a solution for a complicated problem that may otherwise be difficult to solve.
+
+RECURSIVE FUNCTIONS.
+
+A function ( or method ) can call any other function ( or method ), including itself. A function that calls
+itself is called a recursive function. The result is a virtual loop or repetition used in a fashion similar
+to a while loop.
+
+Consider the problem of printing integer values from 1 to n in reverse order. The iterative solution for this
+problem is rather simple when using a loop construct. But it can also be solved recursively, that is, using
+a recursive function.
+
+PROPERTIES OF RECURSION.
+
+All recursive solutions must satisfy three rules or properties:
+
+- A recursive solution must contain a base case.
+- A recursive solution must contain a recursive case.
+- A recursive solution must make progress toward the base case.
+
+A recursive solution subdivides a problem into smaller versions of itself. For a problem to be subdivided,
+it typically must consist of a data set or a term that can be divided into smaller sets or a smaller term.
+This subdivision is handled by the recursive case when the function calls itself.
+
+The base case is the terminating case and represents the smallest subdivision of the problem. It signals
+the end of the virtual loop or recursive calls.
+
+Finally, a recursive solution must make progress toward the base case or the recursion will never stop
+resulting in an infinite virtual loop. This progression typically occurs in each recursive call when the
+larger problem is divided into smaller parts. The larger data set is subdivided into smaller sets or the
+larger term is reduced to a smaller value by each recursive call.

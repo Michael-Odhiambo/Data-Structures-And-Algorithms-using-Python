@@ -1,0 +1,23 @@
+
+Bubble Sort.
+
+A simple solution to the sorting problem is the bubble sort algorithm, which 
+rearranges the values by iterating over the list multiple times, causing larger values
+to bubble to the top or end of the list. To illustrate how the bubble sort algorithm
+works, suppose we have four playing cards (all of the same suit) that we want to
+order from smallest to largest face value.
+
+The algorithm requires multiple passes over the cards, with each pass starting
+at the first card and ending one card earlier than on the previous iteration. During
+each pass, the cards in the first and second positions are compared. If the first is
+larger than the second, the two cards are swapped.
+
+Next, the cards in positions two and three are compared. If the first one is larger
+than the second, they are swapped. Otherwise, we leave them as they were.
+
+This process continues for each successive pair of cards until the card with the
+largest face value is positioned at the end.
+
+The next two passes over the cards are illustrated below. In the second pass the
+card with the second largest face value is positioned in the next-to-last position.
+In the third and final pass, the first two cards will be positioned correctly.

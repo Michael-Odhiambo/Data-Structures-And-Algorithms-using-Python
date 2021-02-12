@@ -1,0 +1,23 @@
+
+HEAPSORT.
+
+The simplicity and efficiency of the heap structure can be applied to the sorting problem. The heapsort algorithm builds
+heap from a sequence of unsorted values and the extracts the items from the heap to create a sorted sequence.
+
+SIMPLE IMPLEMENTATION.
+
+Consider the simple implementation. We create a max-heap with enough capacity to store all of the values in theSeq. Each
+value from the sequence is then inserted into the heap. After that, the values are then extracted from the heap, one at a
+time and stored back into the original sequence structure in reverse order. Since we are using a max-heap, each time a value
+is extracted, we get the next largest value in sorted order.
+
+The heapsort algorithm is very efficient and only requires O(n log n ) time in the worst case. The construction of the heap
+requires O( n log n ) time since there are n items in the sequence and each call to add() requires log n time. Extracting
+the values from the heap and storing them into the sequence structure also requires O( n log n ) time.
+
+Sorting in Place.
+
+The implementation of the simple heapsort algorithm has one drawback: it requires the use of additional storage to build
+the heap structure. But we don't actually need a second array. The entire process of building the heap and extracting the
+values can be done in place - that is, within the same sequence in which the original values are supplied.
+

@@ -1,0 +1,27 @@
+
+THE PRIORITY QUEUE REVISITED.
+
+A priority queue works like a normal queue except each item is assigned a priority and the items with a higher priority are
+dequeued first. The bounded priority queue, in which the number of priorities is fixed, allows for an efficient implementation
+with the use of an array of queues. The unbounded priority queue does not place any restriction on the maximum positive
+integer value that can be used as the priority values. With an unlimited number of priorities, the array of queues implementation
+would not be very efficient and could waste a lot of space. Instead, we would have to use either the python list or linked
+list based implementation of the priority queue.
+
+A min-heap can also be used to implement the general priority queue. The ordering of the heap nodes is based on the priority
+associated with each item in the queue. Since lower values indicate a higher priority, the item with the highest priority
+will always be in the root of the min-heap. When that item is dequeued, the item with the next highest priority will
+work its way to the top as the sift-down operation is performed.
+
+When using a heap implemented as an array, the operations of the general priority queue are very efficient: both the enqueue
+and dequeue operations have worst case times of O(log n). An array-based version of the heap is sufficient in applications where
+the maximum capacity of the queue is known beforehand. If the heap is implemented using a Python list, the enqueue and dequeue
+operations have worst case times of O(n) since the underlying array may have to expand or shrink, but amortized cost of
+O(log n).
+
+                    Worst Case            Amortized
+Implementation Enqueue Dequeue Enqueue Dequeue
+Python List     O(n)     O(n)    O(1)    O(n)
+Linked List     O(1)     O(n)      -       -
+Heap (array)    O(log n) O(log n)  -       -
+Heap (list)     O(n)     O(n)    O(log n) O(log n)

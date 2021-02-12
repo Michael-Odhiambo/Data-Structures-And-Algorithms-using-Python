@@ -1,0 +1,58 @@
+
+THE 2 - 3 TREE.
+
+The binary search tree and the AVL tree are not the only two tree structures that can be used when implementing abstract data
+types that require fast search operations. The 2-3 tree is a multi-way search tree that can have up to three children. It
+provides fast operations that are easy to implement. The tree gets its name from the number of keys and children each node
+can contain.
+
+A 2-3 tree is a search tree that is always balanced and whose shape and structure is defined as follows:
+
+  - Every node has capacity for one or two keys ( and their corresponding payload ), which we term key one and key two.
+  - Every node has capacity for up to three children, which we term the left, middle and right child.
+  - All leaf nodes are at the same level.
+  - Every internal node must contain two or three children. If the node has one key, it must contain two children; if it
+    has two keys, it must contain three children.
+
+In addition, the 2-3 tree has a search property similar to the binary search tree. For each node, V :
+  - All keys less than the first key of node V are stored in the left subtree of V.
+  - If the node has two children, all keys greater than the first key of node V are stored in the middle subtree of V.
+  - If the node has three children: (1) all keys greater than the first key of node V but less than the second key are stored
+    in the middle subtree of V: and (2) all keys greater than the second key are stored in the right subtree.
+
+The implementation of the 2-3 tree assumes the nodes are constructed from the _23TreeNode class.
+The node class contains seven fields, one for each of the two keys and corresponding data and one for each of the three child
+links. It also defines three accessor methods that compute information related to the given node. The isLeaf() method determines
+if the node is a leaf, isFull() determines if the node contains two keys, hasKey() determines if the target key is contained
+in the node, getData() returns the data associated with the given key or None if the key is not in the node, and getBranch()
+compares the target key to the node key(s) and returns a reference to the appropriate branch that must be followed to find
+the target. These methods are included to provide meaningful names for those common operations.
+
+SEARCHING.
+
+Searching a 2-3 tree is very similar to that of a binary search tree. We start at the root and follow the appropriate branch
+based on the value of the target key. The only difference is that we have to compare the target against both keys if the node
+contains two keys, and we have to choose from among possibly three branches. As in a binary search tree, a successful search
+will lead to a key in one of the nodes while an unsuccessful search will lead to a null link. That null link will always be
+in a leaf node. The reason for this is that if an interior node contains one key, it always contains two child links, one for the
+keys less than its key and one for the keys greater than its key. In a similar fashion, if the node contains two keys, it will
+always contain three child links that direct us to one of the value ranges: (1) keys less than the node's first key, (2) keys
+greater than the node's first key but less than its second key, and (3) keys greater than the node's second key. Thus, there
+is never an opportunity to take a null link from an interior node as there was in a binary search tree.
+
+INSERTIONS.
+
+The process of inserting a key into a 2-3 tree is similar to that of a binary search tree, although it's more complicated. The
+first step is to search for the key as if it were in the tree. As we saw in the previous section, the search for a non-existent
+key will lead us to a leaf node. The next step is to determine if there is space in the leaf for the new key. If the leaf contains
+a single key, we can easily insert the key into the node.
+
+When the new key is smaller than the existing key, the new key is inserted as the first key and then existing one is moved
+to become the second key.
+
+SPLITTING A LEAF NODE.
+
+Things become more complicated when the leaf node is full. The splitting process involves two steps. First, a new node is created
+then the new key is compared to the two keys in the original node. The smallest among the three is inserted into the original
+node and the largest is inserted into the new node. The middle value is "promoted" to the parent along with a reference to the newly
+created node. The promoted key and reference are then inserted into the parent node.

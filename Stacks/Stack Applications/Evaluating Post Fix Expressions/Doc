@@ -1,0 +1,46 @@
+
+POSTFIX CONVERSION ALGORITHM.
+
+1. Place parenthesis around every group of operators in the correct order of evaluation. There should be
+   one set of parenthesis for every operator in the infix expression.
+
+2. For each set of parenthesis, move the operator from the middle to the end preceding the corresponding
+   closing parenthesis.
+
+3. Remove all the parenthesis resulting in the equivalent postfix expression.
+
+
+POSTFIX EVALUATION ALGORITHM.
+
+We can evaluate the expression by scanning the string one character or token at a time. For each token,
+we perform the following steps.
+
+1. If the current token is an operand, push its value onto the stack.
+
+2. If the current item is an operator :
+   - Pop the top two operands off the stack.
+
+   - Perform the operation. ( Note the top value is the right operand while the next to the top value is the
+     left operand. )
+
+   - Push the result of this operation back onto the stack.
+
+- The final result of the expression will be the last value on the stack.
+
+The postfix evaluation algorithm assumes a valid expression. But what happens if the expression is invalid?
+Consider the following invalid expression in which there are more operands than available operators.
+
+      AB + CD +
+
+After applying the algorith to this expression, there are two values remaining on the stack. What happens if
+there are too many operators for the given number of operands? Consider such an invalid expression:
+      AB *+ C /
+
+In this case, there are too few operands on the stack when we encounter the addition operator. If we attempt
+to perform two pops from the stack, an assertion error will be thrown since the stack will be empty on the 
+second pop. In step 2(a), we must first verify the stack is not empty before popping an item. If the stack it
+is empty, we can stop the evaluation and flag an error.
+
+The second modification occurs after the evaluation of the entire expression. We can pop the result from the
+stack and then verify the stack is empty. If the stack is not empty, the expression was invalid and we must 
+flag an error.

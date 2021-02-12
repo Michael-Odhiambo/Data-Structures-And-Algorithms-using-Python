@@ -1,0 +1,29 @@
+
+Insertion Sort.
+
+Another commonly studied sorting algorithm is the insertion sort. Continuing
+with our analogy of sorting a set of playing cards to illustrate the sorting algorithms,
+consider five cards stacked in a deck face up:
+
+We pick up the top card from the deck and place it in our hand:
+
+Since this is the first card, there is no decision to be made as to its position.
+We again pick up the top card from the deck and compare it to the card already
+in our hand and insert it into its proper sorted position:
+
+After placing the 8 into our hand, the process is repeated. This time, we pick
+up the 5 and find its position within our hand and insert it in the proper place:
+
+This process continues, one card at a time, until all of the cards have been removed
+from the table and placed into our hand in their proper sorted position.
+
+The insertion sort maintains a collection of sorted items and a collection of
+items to be sorted. In the playing card analogy, the deck represents the collection
+to be sorted and the cards in our hand represents those already sorted. When
+implementing insertion sort in a program, the algorithm maintains both the sorted
+and unsorted collections within the same sequence structure. The algorithm keeps
+the list of sorted values at the front of the sequence and picks the next unsorted
+value from the first of those yet to be positioned. To position the next item, the
+correct spot within the sequence of sorted values is found by performing a search.
+After finding the proper position, the slot has to be opened by shifting the items
+down one position.

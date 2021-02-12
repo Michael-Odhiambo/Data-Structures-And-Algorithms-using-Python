@@ -1,0 +1,59 @@
+
+Merging Sorted Lists.
+
+Sometimes it may be necessary to take two sorted lists and merge them to create
+a new sorted list. Consider the following code segment:
+
+listA = [ 2, 8, 15, 23, 37 ]
+listB = [ 4, 6, 15, 20 ]
+newList = mergeSortedLists( listA, listB )
+print( newList )
+
+which creates two lists with the items ordered in ascending order and then calls a
+user-defined function to create and return a new list created by merging the other
+two. Printing the new merged list produces:
+
+[2, 4, 6, 8, 15, 15, 20, 23, 37]
+
+Problem Solution.
+
+This problem can be solved by simulating the action a person might take to merge
+two stacks of exam papers, each of which are in alphabetical order. Start by 
+choosing the exam from the two stacks with the name that comes first in alphabetical
+order. Flip it over on the table to start a new stack. Again, choose the exam from
+the top of the two stacks that comes next in alphabetical order and flip it over and
+place it on top of first one. Repeat this process until one of the two original stacks
+is exhausted. The exams in the remaining stack can be flipped over on top of the
+new stack as they are already in alphabetical order and alphabetically follow the
+last exam flipped onto the new stack. You now have a single stack of exams in
+alphabetical order.
+
+A similar approach can be used to merge two sorted lists.  The items in the original
+ list are not removed, but instead copied to the new list. Thus, there is no “top” item from
+which to select the smallest value as was the case in the example of merging two
+stacks of exams. Instead, index variables are used to indicate the “top” or next
+value within each list.
+
+The process of merging the two lists begins by creating a new empty list and
+initializing the two index variables to zero. A loop is used to repeat the process
+of selecting the next largest value to be added to the new merged list. During the
+iteration of the loop, the value at listA[a] is compared to the value listB[b].
+The largest of these two values is added or appended to the new list. If the two
+values are equal, the value from listB is chosen. As values are copied from the
+two original lists to the new merged list, one of the two index variables a or b is
+incremented to indicate the next largest value in the corresponding list.
+
+This process is repeated until all of the values have been copied from one of the
+two lists, which occurs when a equals the length of listA or b equals the length of
+listB. Note that we could have created and initialized the new list with a sufficient
+number of elements to store all of the items from both listA and listB. While
+that works for this specific problem, we want to create a more general solution that
+we can easily modify for similar problems where the new list may not contain all
+of the items from the other two lists.
+
+After the first loop terminates, one of the two lists will be empty and one will
+contain at least one additional value. All of the values remaining in that list must
+be copied to the new merged list. This is done by the next two while loops, but
+only one will be executed depending on which list contains additional values. The
+position containing the next value to be copied is denoted by the respective index
+variable a or b.

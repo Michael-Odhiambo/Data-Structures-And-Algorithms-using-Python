@@ -1,0 +1,56 @@
+
+BASIC IMPLEMENTATION.
+
+The radix sort is not a general purpose algorithm. Instead, it's used in special cases such as sorting
+records by zip code, Social Security number, or product codes. The sort keys can be represented as integers,
+reals or string. Different implementations are required, however, since the individual key components ( digits
+or characters ) differ based on the type of key. In addition, we must know the maximum number of digits or characters
+used by the largest key in order to know the number of iterations required to distribute the keys among the bins.
+
+In this section, we implement a version of the radix sort algorithm for use with positive integer
+values stored in a mutable sequence. First, we must decide how to represent the bins used in distributing.
+Consider the following points related to the working of the algorithm.
+
+  - The individual bins store groups of keys based on the individual digits.
+  - Keys with duplicate digits ( in a given column ) are stored in the same bin but,
+    following any that are already there.
+
+  - When the keys are gathered from the bins, they have to be stored back into the
+    original sequence. This is done by removing them from the bins in a first-in-first-out
+    ordering.
+
+You may notice the bins sound very much like queues and in fact they can be represented as such. Adding a key
+to a bin is equivalent to enqueuing the key while removing the keys from the bins to put them back into the sequence
+is easily handled with the dequeue operation. Since there are ten digits, we will need ten queues. The queues can be
+stored in a ten-element array to provide easy management in the distribution and gathering of the keys.
+
+The function takes two arguments, the list of integer values to be sorted and the maximum
+number of digits possible in the largest key value. Instead of relying on the user to supply
+the number of digits, we could easily have searched for the largest key value in the sequence
+and then computed the number of digits in that value.
+
+EFFICIENCY ANALYSIS.
+
+To evaluate the radix sort algorithm, assume a sequence of n keys in which each
+key contains d components in the largest key value and each component contains a
+value between 0 and k - 1. Also assume we are using the linked list implementation
+of the Queue ADT, which results in O(1) time queue operations.
+
+The array used to store the k queues and the creation of the queues themselves
+can be done in O(k) time. The distribution and gathering of the keys involves two
+steps, which are performed d times, one for each component:
+
+ - The distribution of the n keys across the k queues requires O( n ) time since
+   an individual queue can be accessed directly by subscript.
+
+ - Gathering the n keys from the queues and placing them back into the sequence
+   requires O(n) time. Even though the keys have to be gathered from k queues,
+   there are n keys in total to be dequeued resulting in the dequeue() operation
+   being performed n times.
+
+The distribution and gathering steps are performed d times, resulting in a time of
+O(dn). Combining this with the initialization step we have an overall time of O( k + dn ).
+The radix sort is a special purpose algorithm and in practice both k and d are constants
+specific to the given problem, resulting in a linear time algorithm. For example, when
+sorting a list of integers, k = 10 and d can vary but commonly d < 10. Thus, the sorting
+time depends on the number of keys.

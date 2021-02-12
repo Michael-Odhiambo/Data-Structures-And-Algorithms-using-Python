@@ -1,0 +1,53 @@
+
+The Binary Search.
+
+The linear search algorithm for a sorted sequence produced a slight improvement
+over the linear search with an unsorted sequence, but both have a linear time complexity
+in the worst case. To improve the search time for a sorted sequence, we can modify the 
+search technique itself. Consider an example where you are given a stack of exams, which
+are in alphabetical order, and are asked to find the exam for “Jessica Roberts.”
+
+In performing this task, most people would not begin with the first exam and flip through one at
+a time until the requested exam is found, as would be done with a linear search.
+Instead, you would probably flip to the middle and determine if the requested exam
+comes alphabetically before or after that one. Assuming Jessica’s paper follows 
+alphabetically after the middle one, you know it cannot possibly be in the top half of
+the stack. Instead, you would probably continue searching in a similar fashion by
+splitting the remaining stack of exams in half to determine which portion contains
+Jessica’s exam. This is an example of a divide and conquer strategy, which
+entails dividing a larger problem into smaller parts and conquering the smaller
+part.
+
+Algorithm Description.
+
+The binary search algorithm works in a similar fashion to the process described
+above and can be applied to a sorted sequence. The algorithm starts by examining
+the middle item of the sorted sequence, resulting in one of three possible conditions:
+the middle item is the target value, the target value is less than the middle item,
+or the target is larger than the middle item. Since the sequence is ordered, we
+can eliminate half the values in the list when the target value is not found at the
+middle position.
+
+Consider the task of searching for value 10 in the sorted array from Figure 5.2.
+We first determine which element contains the middle entry. As illustrated in
+Figure 5.3, the middle entry contains 18, which is greater than our target of 10.
+Thus, we can discard the upper half of the array from consideration since 10 cannot
+possibly be in that part. Having eliminated the upper half, we repeat the process
+on the lower half of the array. We then find the middle item of the lower half and
+compare its value to the target. Since that entry, which contains 5, is less than the
+target, we can eliminate the lower fourth of the array. The process is repeated on
+the remaining items. Upon finding value 10 in the middle entry from among those
+remaining, the process terminates successfully. If we had not found the target, the
+process would continue until either the target value was found or we had eliminated
+all values from consideration.
+
+Implementation.
+
+The Python implementation of the binary search algorithm is provided in Listing 5.4. 
+The variables low and high are used to mark the range of elements in the
+sequence currently under consideration. When the search begins, this range is the
+entire sequence since the target item can be anywhere within the sequence. The
+first step in each iteration is to determine the midpoint of the sequence. If the
+sequence contains an even number of elements, the mid point will be chosen such
+that the left sequence contains one less item than the right. Figure 5.4 illustrates
+the positioning of the low, high, and mid markers as the algorithm progresses.

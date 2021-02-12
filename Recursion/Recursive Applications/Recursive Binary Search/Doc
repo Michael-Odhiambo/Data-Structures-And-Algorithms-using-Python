@@ -1,0 +1,11 @@
+
+RECURSIVE BINARY SEARCH.
+
+The binary search algorithm improves the
+search time required to locate an item in a sorted sequence.
+In searching for a target within the sorted sequence, the middle value
+is examined to determine if it is the target. If not, the sequence is split in half
+and either the lower half or the upper half of the sequence is examined depending
+on the logical ordering of the target value in relation to the middle item. In
+examining the smaller sequence, the same process is repeated until either the target
+value is found or there are no additional values to be examined. 

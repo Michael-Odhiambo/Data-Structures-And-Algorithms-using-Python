@@ -1,0 +1,58 @@
+
+MULTIDIMENSIONAL ARRAYS.
+
+A multi-dimensional array storesa collection of data in which the individual elements 
+are accessed with multicomponent subscripts: xi,j or yi,j,k. 
+
+As we saw earlier, a two-dimensional array is
+typically viewed as a table or grid consisting of rows and columns. An individual
+element is accessed by specifying two indices, one for the row and one for the
+column. The three-dimensional array can be visualized as a box of tables where
+each table is divided into rows and columns. Individual elements are accessed by
+specifying the index of the table followed by the row and column indices. Larger
+dimensions are used in the solutions for some problems, but they are more difficult
+to visualize.
+
+The MultiArray Abstract Data Type.
+
+To accommodate multi-dimensional arrays of two or more dimensions, we define
+the MultiArray ADT and as with the earlier array abstract data types, we limit the
+operations to those commonly provided by arrays in most programming languages
+that provide the array structure.
+
+A multi-dimensional array consists of a collection of elements organized into 
+multiple dimensions. Individual elements are referenced by specifying an n-tuple or
+a subscript of multiple components, (i1, i2, . . . in), one for each dimension of the
+array. All indices of the n-tuple start at zero.
+
+     MultiArray( d1, d2, . . . dn ): Creates a multi-dimensional array of elements
+        organized into n-dimensions with each element initially set to None. The number
+        of dimensions, which is specified by the number of arguments, must be greater
+        than 1. The individual arguments, all of which must be greater than zero,
+        indicate the lengths of the corresponding array dimensions. The dimensions
+        are specified from highest to lowest, where d1 is the highest possible dimension
+        and dn is the lowest.
+
+     dims(): Returns the number of dimensions in the multi-dimensional array.
+
+     length( dim ): Returns the length of the given array dimension. The individual
+        dimensions are numbered starting from 1, where 1 represents the first, or
+        highest, dimension possible in the array. Thus, in an array with three dimensions, 
+        1 indicates the number of tables in the box, 2 is the number of rows,
+        and 3 is the number of columns.
+
+     clear( value ): Clears the array by setting each element to the given value.
+
+     getitem ( i1, i2, . . . in ): Returns the value stored in the array at the element
+        position indicated by the n-tuple (i1, i2, . . . in). All of the specified indices
+        must be given and they must be within the valid range of the corresponding
+        array dimensions. Accessed using the element operator: y = x[ 1, 2 ].
+
+     setitem ( i1, i2, . . . in, value ): Modifies the contents of the specified array
+        element to contain the given value. The element is specified by the n-tuple
+        (i1, i2, . . . in). All of the subscript components must be given and they must
+        be within the valid range of the corresponding array dimensions. Accessed
+        using the element operator: x[ 1, 2 ] = y.
+
+
+

@@ -1,0 +1,10 @@
+
+Selection Sort.
+
+A second sorting algorithm, which improves on the bubble sort and works in a
+fashion similar to what a human may use to sort a list of values, is known as
+the selection sort. We can again use the set of playing cards to illustrate the
+algorithm and start by placing five cards face up on a table that are to be sorted
+in ascending order.
+
+

@@ -1,0 +1,17 @@
+
+THE lINEAR SEARCH.
+
+The simplest solution to the sequence search problem is the sequential or linear
+search algorithm. This technique iterates over the sequence, one item at a time,
+until the specific item is found or all items have been examined. In Python, a
+target item can be found in a sequence using the in operator.
+
+Finding a Specific Item
+
+The function in Listing 5.1 implements the sequential search algorithm, which
+results in a boolean value indicating success or failure of the search. This is the
+same operation performed by the Python in operator. A count-controlled loop
+is used to traverse through the sequence during which each element is compared
+against the target value. If the item is in the sequence, the loop is terminated and
+True is returned. Otherwise, a full traversal is performed and False is returned
+after the loop terminates.

@@ -1,0 +1,21 @@
+
+ROOT.
+
+The topmost node of the tree is known as the root node. It provides the single
+access point into the structure. The root node is the only node in the tree that
+does not have an incoming edge ( an edge directed toward it ). By definition, every
+non-empty tree must contain a root node.
+
+PATH.
+
+The other nodes in the tree are accessed by following the edges starting with the
+root and progressing in the direction of the arrow until the destination node is
+reached. The nodes encountered when following the edges from a starting node to a
+destination form a path.
+
+PARENT.
+
+The organization of the nodes form relationships between the data elements. Every
+node, except the root, has a parent node, which is identified by the incoming edge.
+A node can have only one parent ( or incoming edge ) resulting in a unique path
+from the root to any other node in the tree. 

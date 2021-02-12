@@ -1,0 +1,163 @@
+
+Application : Computer Simulations.
+
+Computers have long been used to model and simulate real-world systems and
+phenomena. These simulations are simply computer applications that have been
+designed to represent and appropriately react to the significant events occuring
+in the system. Simulations can allow humans to study certain behaviours or experiment with
+certain changes and events in a system to determine the appropriate strategy.
+
+Some of the more common simulations include weather forecasting and flight simulators. A flight
+simulator, which is a mock-up of a real cockpit and controlled by software, helps train pilots
+to deal with real situations without having to risk the life of the pilot or loss of the aircraft.
+Weather forecasts today are much more reliable due to the aide of computer simulations. Mathematical
+models have been developed to simulate weather patterns and atmospheric conditions. These
+models can be solved using computer applications, which then provide information to meteorologists
+for use in predicting the weather.
+
+Computer simulations are also used for less glamarous applications. Businesses can use a computer
+simulation to determine the number of employees needed to provide a service to its
+customers. For example, an airline may want to know how many ticket agents are needed at certain
+times of the day in order to provide timely service. Having too many agents will cost the airline
+money, but too few will result in angry customers. The company could simply study the customer
+habits at one airport and experiment with a different number of agents at different times. But
+this can be costly and time consuming. In addition, the results may only be valid for that one
+airport. To reduce the cost and allow for events that may occur at various airports, a computer
+simulation can be developed to model the real system.
+
+Airline Ticket Counter.
+
+Simulating an airline ticket counter, or any other queuing system where customers stand in line
+awaiting service, is very common. A queue structure is used to model the queuing system in order
+to study certain behaviours or outcomes. Some of the typical results studied include average
+waiting time and average queue length. Queuing systems that use a single queue are easier to model.
+More complex systems like those representing a grocery store that use multiple queues, require more
+complex models. In this section, we limit our discussion to single-queue systems.
+
+Queuing System Model.
+
+We can model a queuing system by constructing a discrete event simulation. The simulation is a sequence
+of significant that cause a change in the system. For example, in our airline ticket counter simulation,
+these events would include customer arrival, the start or conclusion of a transaction, or customer
+departure.
+
+The simulation is time driven and performed over a preset time period. The passing of time is represented
+by a loop, which increments a discrete time variable once for each tick of the clock. The events can only
+occur at discrete time intervals. Thus, the time units must be small enough such that no event can occur
+between units. A simulation is commonly designed to allow the user to supply parameters that define the
+conditions of the system. For a discrete event simulation, modeling a queuing system, these parameters
+include:
+
+- The length of the simulation given in number of time units. The simulation typically begins at time unit
+  zero.
+- The number of servers providing the service to the customers. We must have at least one server.
+- The expected service time to complete a transaction.
+- The distribution of arrival times, which is used to determine when customers arrive.
+
+By adjusting these parameters, the user can change the conditions under which the simulation is performed.
+We can change the number of servers, for example, to determine the optimal number required to provide
+satisfactory service under the given conditions.
+
+Finally, a set of rules are defined for handling the events during each tick of the clock. The specific rules
+depends on what results are being studied. To determine the average time customers must wait in line before
+being served, there are three rules :
+
+Rule 1 : If a customer arrives, he is added to the queue. At most, one customer can arrive during each time step.
+Rule 2 : If there are customers waiting, for each free server, the next customer in line begins her transaction.
+Rule 3 : For each server handling a transaction, if the transaction is complete, the customer departs and the server
+         becomes free.
+
+When the simulation completes, the average waiting time can be computed by dividing the total waiting time for all
+customers by the total number of customers.
+
+Random Events.
+
+To correctly model a queuing system, some events must occur at random. One such event is customer arrival. In the
+first rule outlined earlier, we need to determine if a customer arrives during the current tick of the clock. In a
+real-world system, this event cannot be directly controlled but is a true random act. We need to model this action
+as close as possible in our simulation.
+
+A simple approach would be to flip a coin and let "heads" represent a customer arrival. But this would indicate
+that there is a 50/50 chance a customer arrives every time unit. This may be true for some systems, but not necessarily
+the one we are modelling. We could change this and use a six-sided die and let one of the sides represent a customer
+arrival. But this only changes the odds to 1 in 6 that a customer arrives.
+
+A better approach is to allow the user to specify the odds of a customer arriving at each time step. This can be done
+in one of two ways. The user can enter the odds a customer arrives during the current time step as a real value between
+0.0 ( no chance ) and 1.0 ( a sure thing ). If 0.2 is entered, then this would indicate there is a 1 in 5 chance a
+chance a customer arrives. Instead of directly entering the odds, we can have the user enter the average time between
+customer arrivals. We then compute the odds within the program. If the user enters an average time of 8.0, then on
+average a customer arrives every 8 minutes. But customers can arrive during any minute of the simulation. The average
+between arrivals simply provides the average over the entire simulation. We use the average time to compute the odds
+a customer arriving as 1.0 / 8.0, or 0.125.
+
+Given the odds either directly by the user or computing them based on the average arrival time, how is this value used
+to simulate the random act of a customer arriving? We use the random number generator provided by Python to generate a
+number between 0.0 and 1.0. We compare this result to the probability ( prob ) of an arrival. If the generated random
+number is between 0.0 and prob inclusive, the even occurs and we signal a customer arrival. On the other hand, if the
+random value is greater than prob, then no customer arrives during the current time step and no action is taken. The
+arrival probability can be changed to alter the number of customers served in the simulation.
+
+Implementation.
+
+We can design and implement a discrete event computer simulation to analyze the average time passengers have to wait
+for service at an airport ticket counter. The simulation will involve multiple ticket agents serving customers who have
+to wait in line until they can be served. Our design will be an object-oriented solution with multiple classes.
+
+System Parameters.
+
+The program will prompt the user for the queuing system parameters:
+
+- Number of minutes to simulate: 25
+- Number of ticket agents: 2
+- Average service time per passenger: 3
+- Average time between passenger arrival: 2
+
+For simplicity we use minutes as the discrete time units. This would not be sufficient to simulate a real ticket counter
+as multiple passengers are likely to arrive within any given minute. The program will the perform the simulation and
+produce the following output:
+
+- Number of passengers served = 12
+- Number of passengers remaining in line = 1
+- The average wait time was 1.17 minutes.
+
+We will also have the program display event information, which can be used to help debug the program. The debug
+information lists each event that occurs in the system along with the time the events occur. For input values shown
+above, the event information will be :
+
+Time 2: Passenger 1 arrived.
+Time 2: Agent 1 started serving passenger 1.
+Time 3: Passenger 2 arrived.
+Time 3: Agent 2 started serving passenger 2.
+Time 5: Passenger 3 arrived.
+Time 5: Agent 1 stopped serving passenger 1.
+Time 6: Agent 1 started serving passenger 3.
+Time 6: Agent 2 stopped serving passenger 2.
+Time 8: Passenger 4 arrived.
+Time 8: Agent 2 started serving passenger 4.
+Time 9: Agent 1 stopped serving passenger 3.
+Time 10: Passenger 5 arrived.
+Time 10: Agent 1 started serving passenger 5.
+Time 11: Passenger 6 arrived.
+Time 11: Agent 2 stopped serving passenger 4.
+Time 12: Agent 2 started serving passenger 6.
+Time 13: Passenger 7 arrived.
+Time 13: Agent 1 stopped serving passenger 5.
+Time 14: Passenger 8 arrived.
+Time 14: Agent 1 started serving passenger 7.
+Time 15: Passenger 9 arrived.
+Time 15: Agent 2 stopped serving passenger 6.
+Time 16: Agent 2 started serving passenger 8.
+Time 17: Agent 1 stopped serving passenger 7.
+Time 18: Passenger 10 arrived.
+Time 18: Agent 1 started serving passenger 9.
+Time 19: Passenger 11 arrived.
+Time 19: Agent 2 stopped serving passenger 8.
+Time 20: Agent 2 started serving passenger 10.
+Time 21: Agent 1 stopped serving passenger 9.
+Time 22: Agent 1 started serving passenger 11.
+Time 23: Passenger 12 arrived.
+Time 23: Agent 2 stopped serving passenger 10.
+Time 24: Agent 2 started serving passenger 12.
+Time 25: Passenger 13 arrived.
+Time 25: Agent 1 stopped serving passenger 11.

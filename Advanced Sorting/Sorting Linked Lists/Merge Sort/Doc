@@ -1,0 +1,70 @@
+
+MERGE SORT.
+
+The merge sort algorithm is an excellent choice for sorting a linked list. Unlike the
+sequence-based version, which requires additional storage, when used with a linked
+list the merge sort is efficient in both time and space. The linked list version,
+which works in the same fashion as the sequence version is provided in this section.
+
+The linked list is recursively subdivided into smaller linked lists during each
+recursive call, which are then merged back into a new ordered linked list. Since the
+nodes are not contained within a single object as the elements of an array are, the
+head reference of the new ordered list has to be returned after the list is sorted. To
+sort a linked list using the merge sort algorithm, the sort function would be called using
+the statement:
+
+       theList = lListMergeSort( theList )
+
+The implementation includes the recursive function and two helper functions. You will note
+that a wrapper function is not required with this version since the recursive function only
+requires the head reference of the list being sorted as the single argument.
+
+SPLITTING THE LIST.
+
+The split operation is handled by the _splitLinkedList() helper function, which
+takes as an argument the head reference to the singly linked list to be split and
+returns the head reference for the right sublist. The left sublist can still be
+referenced by the original head reference. To split a linked list, we need to know
+midpoint, or more specifically, the node located at the midpoint. An easy way to
+find the midpoint would be to traverse through the list and count the number of nodes
+and then iterate the list until the node at the midpoint is located. This is
+not the most efficient approach since it requires one and a half traversals through
+the list.
+
+Instead, we can devise a solution that requires one complete list traversal. This a
+approach uses two external references, midPoint and curNode. The two references are
+initialized with midPoint referencing the first node and curNode referencing the second
+node. The two references are advance through the list using a loop as is done in a normal
+list traversal, but the curNode reference will advance twice as fast as the midpoint
+reference. The traversal continues until curNode becomes null, at which point the midpoint
+reference will be pointing to the last node in the left sublist.
+
+After the midpoint is located, the link between the node referenced by midPoint
+and its successor can be removed, creating two sublists. Before the link is removed,
+a new head reference rightList has to be created and initialized to reference the first
+node in the right sublist. The rightList head reference is returned by the function to r
+provide access to the new sublist.
+
+MERGING THE LISTS.
+
+The _mergeLinkedLists() function manages the merging of the two sorted linked lists.
+Earlier, we discussed an efficient solution for the problem of merging two sorted Python
+lists, and earlier in this section, that algorithm was adapted for use with arrays. The
+array and Python list versions are rather simple since we can refer to individual elements
+by index and easily append the values to the sequence structure.
+
+Merging two sorted linked lists requires several modifications to the earlier
+algorithm. First, the nodes from the two sublists will be removed from their respective
+list and appended to a new sorted linked list. We can use a tail reference with the
+new sorted list to allow the nodes from the sublists to be appended in O(1) time.
+Second, after all of the nodes have been removed from one of the two sublists, we
+do not have to iterate through the other list to append the nodes. Instead, we can
+simply link the last node of the new sorted list to the first node in the remaining
+sublist. Finally, we can eliminate the special case of appending the first node to the
+sorted list with the use of a dummy node at the front of the list. The dummy node is
+only temporary and will not be part of the final sorted list. Thus, after the two sublists
+have been merged, the function returns a reference to the second node in the list ( the
+first real node following the dummy node ), which becomes the head reference.
+
+The linked list version of the merge sort algorithm is also a O(n log n) function but
+it does not require temporary storage to mere the sublists.

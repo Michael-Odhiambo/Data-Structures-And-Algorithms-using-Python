@@ -1,0 +1,72 @@
+
+QUICK SORT.
+
+The quick sort algorithm also uses the divide and conquer strategy. But unlike
+the merge sort, which splits the sequence of keys at the midpoint, the quick
+sort partitions the sequence by dividing it into two segments based on a selected
+pivot key. In addition, the quick sort can be implemented to work with virtual
+subsequences without the need for temporary storage.
+
+ALGORITHM DESCRIPTION.
+
+The quick sort is a simple recursive algorithm that can be used to sort keys stored
+in either an array or list. Given the sequence, it performs the following steps:
+
+ 1. The first key is selected as the pivot, p. The pivot value is used to partition the
+    sequence into two segments or subsequences, L and G, such that L contains
+    all keys less that p and G contains all keys greater than or equal to p.
+
+ 2. The algorithm is then applied recursively to both L and G. The recursion continues
+    until the base case is reached, which occurs when the sequence contains fewer than two
+    keys.
+
+ 3. The two segments and the pivot value are merged to produce a sorted sequence.
+    This is accomplished by copying the keys from segment L back into the original
+    sequence, followed by the pivot value and then the keys from segment G. After
+    this step, the pivot key will end up in its proper position within the sorted
+    sequence.
+
+You will notice the size of the segments will vary depending on the value of the pivot.
+In some instances, one segment may not contain any elements. It depends on the pivot
+value and the relationship between that value and the other keys in the sequence. When the
+recursive calls return, the segments and pivot value are merged to produce a sorted sequence.
+
+IMPLEMENTATION.
+
+A simple implementation using the slice operation can be devised for the quick sort
+algorithm as was done with the merge sort but it would require the use of temporary
+storage. An efficient solution can be designed to work with virtual subsequences or
+segments that does not require temporary storage. However, it is not as easily implemented
+since the partitioning must be done using the same sequence structure.
+
+The quickSort() function is a simple wrapper that is used to initiate the recursive
+call to recQuickSort(). The recursive function is rather simple and follows
+the enumerated steps described earler. Noe the first and last indicate the
+elements in the range[ first ... last ] that comprise the current virtual segment.
+
+The partitioning step is handled by the partitionSeq() function. This function
+rearranges the keys within the physical sequence structure by correctly positioning
+the pivot key within the sequence and placing all keys that are less than the pivot
+to the left and all keys that are greater to the right.
+
+The final position of the pivot value also indicates the position at which the
+sequence is split to create the two segments. The left segment consists of the
+elements between the first element and the pos - 1 element while the right segment
+consists of the elements between pos + 1 and last, inclusive. The virtual segments
+are passed to the recursive calls using the proper index ranges.
+
+After the recursive calls, the recQuickSort() function returns. In the earlier
+description, the sorted segments and pivot value had to  be merged and stored back
+into the original sequence. But since we are using virtual segments, the keys are
+already stored in their proper position upon the return of the two recursive calls.
+
+EFFICIENCY ANALYSIS.
+
+The quick sort algorithm has an average or expected time of O( n log n ) but runs in
+O( n ^ 2 ) in the worst case. Even though quick sort is quadratic in the worst case,
+it does approach the average case in many instances and has the advantage of not requiring
+additional temporary storage as is the case with the merge sort. The quick sort is the
+commonly used algorithm to implement sorting in language libraries. Earlier versions of
+Python used quick sort to implement the sort() method of the list structure. In the current
+version of Python, a hybrid algorithm that combines the insertion and merge sort algorithms
+is used instead.

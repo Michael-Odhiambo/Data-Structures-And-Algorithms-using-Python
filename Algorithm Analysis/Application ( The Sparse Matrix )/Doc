@@ -1,0 +1,23 @@
+
+Application: The Sparse Matrix.
+
+A matrix containing a large number of zero elements is called a sparse matrix.
+Sparse matrices are very common in scientific applications, especially those dealing
+with systems of linear equations. A sparse matrix is formally defined to be an m×n
+matrix that contains k non-zero elements such that k  m×n. The 2-D array data
+structure used to implement the Matrix ADT in Chapter 2 works well for general
+matrices. But when used to store huge sparse matrices, large amounts of memory
+can be wasted and the operations can be inefficient since the zero elements are also
+stored in the 2-D array.
+
+List-Based Implementation.
+
+In this section, we define and implement a class for storing and working with sparse
+matrices in which the non-zero elements are stored in a list. The operations of a
+sparse matrix are the same as those for a general matrix and many of them can be
+implemented in a similar fashion as was done for the Matrix class.
+This would be sufficient if our only objective was to reduce the storage cost, but we
+can take advantage of only storing the non-zero elements to improve the efficiency of
+several of the sparse matrix operations. Note the use of the new class
+name to distinguish this version from the original Matrix ADT and to indicate it is
+meant for use with sparse matrices.

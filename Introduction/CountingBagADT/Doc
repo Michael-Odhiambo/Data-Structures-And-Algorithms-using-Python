@@ -1,0 +1,3 @@
+
+A Counting Bag ADT is just like the Bag ADT but includes the numOf( item ) operation, which returns the number
+of occurences of the given item in the bag. 

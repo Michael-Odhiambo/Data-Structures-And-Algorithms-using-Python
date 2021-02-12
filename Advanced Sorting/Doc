@@ -1,0 +1,22 @@
+
+ADVANCED SORTING.
+
+We introduced the sorting problem in an earlier section and explored three basic sorting
+algorithms, but there are many others. most sorting algorithms can be divided
+into two categories: comparison sorts and distribution sorts. In a comparison
+sort, the data items can be arranged in either ascending ( from smallest to largest )
+or descending ( from largest to smallest ) order by performing pairwise logical comparisons
+between the sort keys. The pairwise comparisons are typically based on
+either numerical order when working with integers and reals or lexicographical order
+when working with strings and sequences. A distribution sort, on the other
+hand, distributes or divides the sort keys into intermediate groups or collections
+based on the individual key values. For example, consider the problem of sorting a
+list of numerical grades based on their equivalent letter grade instead of the actual
+numerical value. The grades can be divided into groups based on the corresponding
+letter grade without having to make comparisons between the numerical values.
+
+The sorting algorithms described earlier used nested iterative loops to sort
+a sequence of values. In this section, we explore two additional comparison sort
+algorithms, both of which use recursion and apply a divide and conquer strategy
+to sort sequences. Many of the comparison sorts can also be applied to linked lists,
+which we explore along with one of the more common distribution sorts.

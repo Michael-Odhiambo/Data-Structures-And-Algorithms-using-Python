@@ -1,0 +1,23 @@
+
+EXPONENTIAL OPERATION.
+
+Some of the recursive examples we have seen are actually slower than an equivalent
+iterative version such as computing a Fibonacci number. Those were introduced to
+provide simple examples of recursion. Other problems such as solving the Towers of Hanoi can only be done
+using a recursive algorithm. There are some problems, however, in which the recursive version is more
+efficient than the iterative version. One such example is the exponential operation, which raises a number
+to a power.
+
+By definition, the exponential operation x ^ n can be expressed as x multiplied by itself n times.
+
+Of course, in Python, this can be done using the exponential operator:
+
+But how is this operation actually performed in Python? A basic implementation would be to use an iterative
+loop.
+
+This implementation requires linear time, which is relatively slow if we are raising a value to a large
+power. Fortunately, there is a faster way to raise a value to an integer power. Instead of computing
+2 ^ 8 as 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2, we can reduce the number of multiplications if we computed
+( 2 * 2 ) ^ 4 instead. Better yet, what if we just computed 16 * 16? This is the idea behind a recursive
+definition for raising a value to an integer power. ( The expression n / 2 is integer division in which the
+real result is truncated. )

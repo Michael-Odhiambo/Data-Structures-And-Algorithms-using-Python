@@ -1,0 +1,49 @@
+
+MERGE SORT.
+
+The merge sort algorithm uses the divide and conquer strategy to sort the keys
+stored in a mutable sequence. The sequence of values is recursively divided into
+smaller and smaller subsequences until each value is contained within its own sub-
+sequence. For illustration purposes, we assume the mutable sequence is a list.
+
+ALGORITHM DESCRIPTION.
+
+The algorithm starts by splitting the original list of values in the middle to create
+two sublists, each containing approximately the same number of values. After the list
+has been fully subdivided into individual sublists, the sublists are then merged back
+together, two at a time, to create a new sorted list. These sorted lists are themselves
+merged to create larger and larger lists until a single sorted list has been constructed.
+During the merging phase, each pair of sorted sublists are merged to create a new sorted list
+containing all of the elements from both sublists.
+
+Given the basic description of the merge sort algorithm from an abstract view, we now
+turn our attention to the implementation details. There are two major steps in the merge
+sort algorithm: dividing the list of values into smaller and smaller sublists and merging
+the sublists back together to create a sorted list. The use of recursion provides a simple
+solution to this problem. The list can be subdivided by each recursive call and then merged
+back together as the recursion unwinds.
+
+If the supplied list contains a single item, it is by definition sorted and the list
+is simply returned, which is the base case of the recursive definition. If the list contains
+multiple items, it has to be split to create two sublists of approximately equal size.
+The split is handled by first computing the midpoint of the list and then using the slice
+operation to create two new sublists. The left sublist is then passed to a recursive call
+of the pythonMergeSort() function. That portion of the list will be processed recursively
+until it is completely sorted and returned. The right half of the list is then processed in a
+similar fashion. After both the left and right sublists have been ordered, the two lists are
+merged using the mergeSortedList() function. The new sorted list is then returned.
+
+
+
+
+The pythonMergeSort() function provides a simple recursive implementation
+of the merge sort algorithm, but it has several disadvantages. First, it relies on
+the use of the slice operation, which prevents us from using the function to sort an
+array of values since the array structure does not provide a slice operation. Second,
+new physical sublists are created in each recursive call as te list is subdivided. We
+learned earlier that the slice operation can be time consuming since a new
+list has to be created and the contents of the slice copied from the original list. A
+new list is also created each time two sublist are merged during the unwinding of
+the recursion, adding yet more time to the overall process. Finally, the sorted list
+is not contained within the same list originally passed to the function as was the case
+with the sorting algorithms presented earlier.

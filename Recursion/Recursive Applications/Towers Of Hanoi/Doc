@@ -1,0 +1,39 @@
+The Towers of hanoi puzzle, invented by the French mathematician Edouard
+Lucas in 1883, consists of a board with three vertical poles and a stack of disks. The
+diameter of the disks increases as we progress from the top to bottom, creating a
+tower structure. Any number of disks can be used with the puzzle, but we use five
+for ease of illustration.
+
+The objective is to move all of the disks from the starting pole of the other
+two poles to create a new tower. There are, however, two restrictions: 1.) only
+one disk can be moved at a time, and (2) a larger disk can never be placed on top
+of a smaller disk.
+
+How would you go about solving this problem recursively? Of course you need
+to think about the base case, the recursive case, and how each recursive call reduces
+the size of the problem. We will derive all of these in time, but the easiest way to
+solve this problem is to think about the problem from the bottom up. Instead of
+thinking about the easiest step, moving the top disk, let's start with the hardest
+step of moving the bottom disk.
+
+Suppose we already know how to move the top four disks from pole A to pole B.
+Moving the disk from pole A to pole C is now rather easy since it's the only disk
+left on pole A and there are no disks on pole C. After moving the largest disk, we
+then move the other four disks from pole B to pole C.
+
+Of course, we still have to figure how to move the top four disks. There
+is no reason we cannot use the same technique to move the top four disks and in
+fact we must use the same technique, which leads to a recursive solution. Given n
+disks and three poles labeled source ( S ), destination ( D ), and intermediate ( I ),
+we can define the recursive operation as:
+
+- Move the top n - 1 disks from pole S to pole I using pole D.
+- Move the remaining disk from pole S to pole D.
+- Move the n - 1 disks from pole I to pole D using pole S.
+
+The first and last steps are recursive calls to the same operation but using
+different poles as the source, destination and intermediate designations. The base
+case, which is implicit in this description occurs when there is a single disk to
+move, requiring that we skip the first and last step. Finally, the solution makes
+progress toward the base case since the recursive calls move one less disk than the
+current invocation. Eventually, we will end up with a single disk to move.

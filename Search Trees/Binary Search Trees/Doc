@@ -1,0 +1,139 @@
+
+THE BINARY SEARCH TREE.
+
+A binary search tree (BST) is a binary tree in which each node contains a search
+key within its payload and the tree is structured such that for each interior node V:
+
+   - All keys less than the key in node V are stored in the left subtree of V.
+   - All keys greater than the key in node V are stored in the right subtree of V.
+
+Given the relationship between the nodes, an inorder traversal will visit the nodes in
+increasing search key order.
+
+Our definition of the binary search tree precludes the storage of duplicate keys in the tree, which makes the implementation
+of the various operations much easier. It's also appropriate for some applications, but the restriction can be changed to
+allow duplicate keys, if needed. In addition, for illustration purposes, we only show the key within each node of our search
+trees. You should assume the corresponding data value is also stored in the nodes.
+
+SEARCHING.
+
+Given a binary search tree, you will eventually want to search the tree to determine if it contains a given key or to locate
+a specific element. In the last chapter, we saw that there is a single path from the root to every other node in a tree.
+If the binary search tree contains the target key, then there will be a unique path from the root to the node containing
+that key. The only question is, how do we know which path to take?
+
+Since the root node provides the single access point into any binary tree, our search must begin there. The target value
+is compared to the key in the root node. If the root contains the target value, our search is over with a successful result.
+But if the target is not in the root, we must decide which of the two possible paths to take. From the definition of the
+binary search tree, we know the key in the root is larger than the keys in its left subtree and smaller than the keys in its
+right subtree. Thus, if the target is less than the root's key, we move left and we move right if it's greater. We repeat
+the comparison on the root node of the subtree and take the appropriate path. This process is repeated until the target is
+located or we encounter a null child link.
+
+The _bstSearch() helper method, recursively navigates a binary search tree to find the node containing the target key. the
+method has two base cases: the target is contained in the current node or a null child link is encountered. When a base case
+is reached, the method returns either a reference to the node containing the key or None, back through all of the recursive
+calls. The latter indicates the key was not found in the tree. the recursive call is made by passing the link to either the
+left or right subtree depending on the relationship between the target and the key in the current node. You may be wondering
+why we return a reference to the node and not just a boolean value to indicate the success of failure of the search. This allows
+us to use the same helper method to implement both the __contains__ and valueOf() methods of the Map class. Both call the recursive
+helper method to locate the node containing the target key. In doing so, the root node reference has to be passed to the helper
+to initiate the recursion. The value returned from _btsSearch() can be evaluated to determine if the keys was found in the tree
+and the appropriate action can be taken for the corresponding Map ADT operation.
+
+A binary search tree can be empty, as indicated by a null root reference, so we must ensure any operation performed on the
+tree also works when the tree is empty. In the _bstSearch() method, this is handled by the first base case on the first call
+to the method.
+
+MIN AND MAX VALUES.
+
+Another operation similar to a search that can be performed on a binary search tree is finding the minimum or maximum key
+values. Given the definition of the binary search tree, we know the minimum value is either in the root or in a node to its
+left. But how do we know if the root is the smallest value and not somewhere in its left subtree? We could compare the root
+to its left child, but if you think about it, there is not need to compare the individual keys. The reason has to do with the
+relationship between the keys. If the root node contains keys in its left subtree, then it cannot possibly contain the minimum
+key value since all of the keys to the left of the root are smaller than the root. What if the root node does not have a
+left child? In this case, the root would contain the smallest key value since all of the keys to the right are larger than the
+root.
+
+If we applied the same logic to the left child of the root node ( assuming it has a left child ) and then to that node's
+left child and so on, we will eventually find the minimum key value. That value will be found in a node that is either a leaf
+or an interior node with no left child. It can be located by starting at the root and following the left child links until a
+null link is encountered.
+
+INSERTIONS.
+
+When a binary search tree is constructed, the keys are added one at a time. As the keys are inserted, a new node is created
+for each key and linked into its proper position within the tree.
+
+DELETIONS.
+
+Removing an element from a binary search tree is a bit more complicated than searching for an element or inserting a new element
+into the tree. A deletion involves searching for the node that contains the target key and then unlinking the node to remove
+it from the tree. When a node is removed, the remaining nodes must preserve the search tree property. There are three cases
+to consider once the node has been located:
+
+  - The nodes is a leaf.
+  - The node has a single child.
+  - The node has two children.
+
+The first step in removing an element is to find the node that contains the key. This can be done in a manner similar to that used
+when searching for the location to insert a new element. Once the node is located, it has to be unlinked to remove it from
+the tree. We consider the three cases separately and then provide a complete listing of the recursive bstRemove() method and its
+use in implementing the remove() method.
+
+REMOVING A LEAF NODE.
+
+Removing a leaf node is the easiest among the three cases. removing a leaf node in our recursive method is as simple as returning
+a null reference. The _bstRemove() method uses the same technique of returning a reference from each recursive call as the insertion
+operation. By returning None back to the parent node, a null reference will be assigned to the appropriate link field in the
+parent, thus unlinking it from the tree.
+
+REMOVING AN INTERIOR NODE WITH ONE CHILD.
+
+If the node to be removed has a single child, it can be either the left or right child.
+
+REMOVING AN INTERIOR NODE WITH TWO CHILDREN.
+
+The most difficult case is when the node to be deleted has two children.
+The keys in a binary search tree are arranged such that an inorder traversal produces a sorted key sequence. Thus, each node
+node has a logical predecessor and successor. Instead of attempting to replace the node with one of its two children, we can
+replace it with one of these nodes, both of which will either be a leaf or an interior node with one child. Since we already
+know how to remove a leaf and a one-child interior node, the one selected to replace node 12 can then easily be removed from
+the tree. Removing an interior node with two children requires three steps:
+
+   - Find the logical successor, S, of the node to be deleted, N.
+   - Copy the key from node S to node N.
+   - Remove node S from the tree.
+
+The latter two steps are straightforward. Once we have found the successor, we can simply copy the data from one node to the
+other. In addition, since we already know how to remove a leaf node or an interior node with one child we can apply the same
+method to remove the original node containing the successor. But how do we find the successor of a node and where might it
+be located in the tree? We know the successor is the smallest key value from among those that are larger than the given node.
+Based on the definition of the binary search tree, the smallest key larger than a given node is either its parent or somewhere
+in its right subtree.
+
+Since we already know how to find the minimum key in a binary search tree, we can use this method but apply it to the right
+subtree of the ode being deleted.
+
+After copying the element containing the successor key, the node originally containing the successor has to be removed from
+the right subtree.
+
+SEARCH TREE ITERATORS.
+
+The definition of the Search Tree ADT specifies an iterator that can be used to traverse through the keys contained in the
+tree. The implementation of the iterators for use with the linear list structures were rather simple. For the sequence types,
+we were able to initialize an index variable for accessing the elements that was incremented after each iteration of the for
+loop. With a linked list, the iterator can define and use an external reference that is initialized to the head node and
+then advanced through the list with each iteration of the loop.
+
+Traversals can be performed on a binary search tree, but this requires a recursive solution. We cannot easily advance to the
+next key without moving down into the tree and then backing up each time a leaf is encountered. On solution is to have the
+iterator build an array of elements by recursively traversing the tree, which we can then step through as the iterator progresses
+just as we did with the linear structures.
+
+While this approach works, it requires the allocation of additional storage space, which can be significant if the tree contains
+a large number of elements. As an alternative, we can perform a recursive traversal with the use of a stack. Remember, recursion
+simulates the use of a stack without having to directly perform the push and pop operations. Any recursive function or method
+can be implemented using a software stack. For the tree traversal, node references are pushed onto the stack as it moves down
+into the tree and the references are popped as the process backtracks.

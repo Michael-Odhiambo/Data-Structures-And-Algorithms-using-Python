@@ -1,0 +1,25 @@
+
+The Set ADT Revisited.
+
+The implementation of the Set ADT using a list was quick and rather simple, but
+several of the operations require quadratic time in the worst case. This inefficiency
+is due to the linear search used to find an element in the unsorted list that is
+required by several of the operations. We saw earlier in the chapter the efficiency
+of the search operation can be improved by using the binary search algorithm. To
+use the binary search with the Set ADT, the list of elements must be in sorted
+order and that order must be maintained. The definition of the Set ADT, however,
+indicates the elements have no particular ordering. While this is true, it does not
+preclude us from storing the elements in sorted order. It only means there is no
+requirement that the items must be stored in a particular order.
+
+A Sorted List Implementation.
+
+In using the binary search algorithm to improve the efficiency of the set operations,
+the list cannot be sorted each time a new element is added because it would increase
+ the time-complexity of the add() operation. For example, suppose we used
+one of the sorting algorithms presented earlier in the chapter to sort the list after
+each element is added. Since those algorithms require O(n^2) time in the worst case,
+the add() operation would then also require quadratic time. Instead, the sorted
+order must be maintained when new elements are added by inserting each into
+its proper position.
+

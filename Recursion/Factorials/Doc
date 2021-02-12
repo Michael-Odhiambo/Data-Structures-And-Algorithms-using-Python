@@ -1,0 +1,26 @@
+The factorial of a positive integer n can be used to calculate the number of permutations of n elements.
+The function is defined as:
+
+       n! = n * ( n - 1 ) * ( n - 2 ) * ... * 1
+
+with the special case of 0! = 1. This problem can be solved easily using an iterative implementation
+that loops through the individual values [1...n] and computes a product of those values. But it can also
+be solved with a recursive solution and provides a simple example of recursion. Consider the factorial
+function on different integer values:
+
+         0! = 1
+         1! = 1
+         2! = 2 * 1
+         3! = 3 * 2 * 1
+         4! = 4 * 3 * 2 * 1
+
+After careful inspection of these equations, it becomes obvious each of the successive equations, for n > 1
+can be rewritten in terms of the previous equation:
+
+         0! = 1
+         1! = 1 * ( 1 - 1 )!
+         2! = 2 * ( 2 - 1 )!
+         3! = 3 * ( 3 - 1 )!
+
+Since the function is defined in terms of itself and contains a base case, a recursive definition can be
+produced for the factorial function.

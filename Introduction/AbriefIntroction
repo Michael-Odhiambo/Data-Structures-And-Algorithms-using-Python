@@ -1,0 +1,164 @@
+
+
+ABSTRACT DATA TYPES.
+
+The foundation of computer science is based on the study of algorithms. An algorithm is a sequence of clear
+and precise step-by-step instructions for solving a problem in a finite amount of time. Algorithms are 
+implemented by translating the step-by-step instructions into a computer program that can be executed by a 
+computer. This translation process is called computer programming or simply programming. Computer programs
+are constructed using a programming language appropriate to the problem. While programming is an important part
+of computer science, computer science is not the study of programming. Nor is it about learning a particular
+programming language. Instead, programming and programming languages are tools used by computer scientists to
+solve problems. 
+
+INTRODUCTION.
+
+Data items are represented within a computer as a sequence of binary digits. These sequences can appear very
+similar but have different meanings since computers can store and manipulate different types of data. For 
+example, the binary sequence 01001100110010110101110011011100 could be a string of characters, an integer 
+value, or a real value. To distinguish between the different types of data, the term "type" is often used to
+refer to a collection of values and the term "data type" to refer to a given type along with a collection of
+operations for manipulating values of the given type. 
+
+Programming languages commonly provide data types as part of the language itself. These data types, known as
+primitives, come in two categories: simple and complex. The simple data types consist of values that are in the
+most basic form and cannot be decomposed into smaller parts. Integer and real types, for example consist of
+single numeric values. The complex data types, on the other hand, are constructed of multiple components 
+consisting of simple types or other complex types. In Python, objects, strings, lists and dictionaries, which
+can containn multiple values, are all examples of complex types. The primitive types provided by a language 
+may not be sufficient for solving large complex problems. Thus, most languages allow for the construction of 
+additional data types, know as user-defined types since they are defined by the programmer and not the language.
+Some of these data types can themselves be very complex.
+
+ABSTRACTIONS.
+
+To help manage complex problems and complex data types, computer scientists typically work with abstractions.
+An abstraction is a mechanism for separating the properties of an object and restricting the focus to those
+relevant in the current context. The user of the abstraction does not have to understand all the details in 
+order to utilize the object, but only those relevant to the current problem.
+
+Two common types of abstractions encountered in computer science are precedural, or functional, abstraction
+and data abstraction. Procedural abstraction is the use of a function or method knowing what it does but ignoring
+how it's accomplished. Consider the mathematical square root function which you have probably used at some 
+point. You know the function will compute the square root of a given number, but do you know how the square root
+is computed? Does it matter if you know how it is computed, or is simply knowing how to correctly use the function
+sufficient? Data abstraction is the separation of the properties of a data type ( its values and operations ) 
+from the implementation of that data type. You have used strings in Python many times. But do you know how they
+are implemented? That is, do you know how the data is structured internally or how the various operations are
+implemented?
+
+Typically, abstractions of complex problems occur in layers, with each higher layer adding more abstraction than
+the previous. Consider the problem of representing integer values on computers and performing arithmetic operations
+on those values. At the lowest level is the hardware with little to no abstraction since it includes binary
+representations of the values and logic circuits for performing the arithmetic. Hardware designers would deal
+with integer arithmetic at this level and be concerned with its correct implementation. A higher level of 
+abstraction for integer values and arithmetic is provided through assembly language, which involves working with
+binary values and individual instructions corresponding to the underlying hardware. Compler writers and assembly
+language programmers would work with integer arithmetic at this level and must ensure the proper selection of 
+assembly language instruction to compute a given mathematical expression. For example, suppose we wish to compute
+x = a + b - 5. At the assembly language level, this expression must be split into multiple instructions for 
+loading the values from memory, storing them into registers, and them performing each arithmetic operations
+separately.
+
+To avoid this level of complexity, high-level programming languages add another layer of abstraction above the
+assembly language level. This abstraction is provided through a primitive data type for storing integer values
+and a set of well-defined operations that can be performed on those values. By providing this level of abstraction,
+programmers can work with variables storing decimal values and specify mathematical expressions in a more
+familiar notation ( x = a + b - 5 ) than is possible with assembly language instructions. Thus, a programmer
+does not need to know the assembly language instructions required to evaluate a mathematical expression or 
+understand the hardware implementation in order to use integer arithmetic in a computer program.
+
+One problem with the integer arithmetic provided by most high-level languages and in computer hardware is that 
+it works with values of a limited size. On 32-bit architecture computers, for example, signed integer values are
+limited to the range -2^31...( 2^31  - 1 ). What if we need larger values? In this case, we can provide long
+or "big integers" implemented in software to allow values of unlimited size. This would involve storing the 
+individual digits and implementing fuctions or methods for performing the various arithmetic operations. The
+implementation of the operations would use the primitive data types and instructions provided by the high-level
+language. Software libraries that provide big integer implementations are available for most common programming 
+languages. Python, however, actually provides software-implemented big integers as part of the language itself.
+
+ABSTRACT DATA TYPES.
+
+An abstract data type ( or ADT ) is a programmer-defined data type that specifies a set of data values and are
+collection of well-defined operations that can be performed on those values. Abstract data types are defined
+independent of their implementation, allowing us to focus on the use of the new data type instead of how it's 
+implemented. This separation is typically enforced by requiring interaction with the abstract data type through
+an interface or defined set of operations. This is know as information hiding. By hiding the implemetation details
+and requiring ADTs to be accessed through an interface, we can work with an abstraction and focus on what 
+functionality the ADT provides instead of how that functionality is implemented.
+
+Abstract data types can be viewed like black boxes. User programs interact with instances of the ADT by invoking
+one of the several operations defined by its interface. The set of operations can be grouped into four categories.
+
+  - Constructors: Create and initialize new instances of the ADT.
+  - Accessors: Return data contained in an instance without modifying it.
+  - Mutators: Modify the contents of an ADT instance.
+  - Iterators: Process individual data components sequentially.
+
+
+The implementation of the various operations are hidden inside the black box, the contents of which we do not
+have to know in order to utilize the ADT. There are several advantages of working with abstract data types and
+focusing on the "what" instead of the "how".
+
+  - We can focus on solving the problem at hand instead of getting bogged down in the implentation details.
+    For example, suppose we need to extract a collection of values from a file on disk and store them for later
+    use in our program. If we focus on the implentation details, then we have to worry about what type of 
+    storage structure to use, how it should be used, and whether it is the most efficient choice.
+
+  - We can reduce logical errors that can occure from accidental misuse of storage structures and data types by 
+    preventing direct access to the implemetation. If we used a list to store the collection of values in the
+    previous example, there is the opportunity to accidentally modify its contents in a part of our code where 
+    it was not intended. This type of logical error can be difficult to track down. By using ADTs and requiring
+    access via the interface, we have fewer access points to debug.
+
+  - The implementation of the abstract data type can be changed without having to modify the program code that
+    uses the ADT. There are many times when we discover the initial implementation of an ADT is not the most
+    efficient or we need the data organized in a different way. Suppose our initial approach to the previous
+    problem of storing a collection of values is to simply append new values to the end of the list. What happens
+    if we later decide the items should be arranged in a different order than simply appending them to the end?
+    If we are accessing the list directly, then we will have to modify our code at every point where values are
+    added and make sure they are not rearranged in other places. By requiring access via the interface, we can
+    easily "swap out" the black bo with a new implementation with no impact on code segments that use the ADT.
+
+  - Its easier to manage and divide larger programs into smaller modules, allowing different members of a team
+    to work on the separate modules. Large programming projects are commonly developed by teams of programmers
+    in which the workload is divided among the members. By working with ADTs and agreeing on their definition, the
+    team can better ensure the individual modules will work together when all the pieces are combined. Using our
+    previous example, if each member of the team directly accessed the list storing the collection of values, 
+    they many inadvertently organize the data in different ways or modify the list in some unexpected way. When 
+    the various modules are combined, the results may be unpredictable.
+
+GENERAL DEFINITIONS.
+
+There are many different terms used in computer science. Some of these can have different meanings among the
+various textbooks and programming languages. To aide the reader and to avoid confusion, we define some of the
+common terms we will be using.
+
+- A Collection is a group of values with no implied organization or relationship between the individual values.
+  Sometimes we may restrict the elements to a specific data type such as a collection of integers or floating-
+  point values.
+
+- A Container is any data structure or abstract data type that stores and organizes a collection. The individual
+  values of the collection are known as elements of the container and a container with no elements is said to be
+  empty. The organization or arrangement of the elements can vary from one container to the next as can the
+  operations available for accessing the elements. Python provides a number of built-in containers, which includes
+  strings, tuples, lists, dictionaries and sets.
+
+- A Sequence is a container in which the elements are arranged in linear order from front to back, with each
+  element accessible by position. Throughout the text, we assume that access to the individual elements based
+  on their position within the linear order is provided using the subscript operator. Python provides two immutable
+  sequences, strings and tuples, and one mutable sequence, the list. In the next chapter, we introduce the array
+  structure, which is also a commonly used mutable sequence.
+
+- A Sorted Sequence is one in which the position of the elements is based on a prescribed relationship between
+  each element and its successor. For example, we can create a sorted sequence of integers in which the elements
+  are arranged in ascending or increasing order from smallest to largest value.
+
+In computer science, the term list is commonly used to refer to any collection with a linear ordering. The ordering
+is such that every element in the collection, except the first one, has a unique predecessor and every element,
+except the last one, has a unique successor. By this definition, a sequence is a list, but a list is not 
+necessarily a sequence since there is no requirement that a list provide access to the elements by position. 
+Python, unfortunately, uses the same name for its built-in mutable sequence type, which in other languages would
+be called an array list or vector abstract data type. To avoid confusion, we will use the term list to refer
+to the data type provided by Python and use the terms general list or list structure when referring to the more
+general list structure as defined ealier.

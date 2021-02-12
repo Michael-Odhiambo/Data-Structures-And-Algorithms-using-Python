@@ -1,0 +1,110 @@
+
+IMPROVED IMPLEMENTATION.
+
+We can improve the implementation of the merge sort algorithm by using a technique
+similar to that employed with the binary search algorithm. Instead of physically
+creating sublists when the list is split, we can use index markers to specify a
+subsequence to specify a subsequence of elements to create virtual sublists within
+the original physical list as was done with binary search algorithm. The use of
+virtual sublists eliminates the need to repeatedly create new physical arrays or
+Python list structures during each recursive call.
+
+The recMergeSort() function is very similar to the earlier implementation since
+both require the same steps to implements the merge sort algorithm. The difference
+is that recMergeSort() works with virtual sublists instead of using the slice operation
+to create actual sublists. This requires two index variables, first and last, for
+indicating the range of elements within the physical sublist that comprise the virtual
+sublist.
+
+This implementation of the merge sort algorithm requires the use of a temporary array when
+merging the sorted virtual sublists. Instead of repeatedly creating a new array and later
+deleting it each time sublists are merged, we can create a single array and use it for every
+merge operation. Since this array is needed inside the mergeVirtualLists() function, it has to
+either be declared as a global variable or created and passed into the recursive function before
+the first call. Our implementation uses the latter approach.
+
+The mergeVirtualSeq() function is a modified version of mergeSortedLists(). The original function
+was used to create a new list that contained the elements resulting from merging two sorted lists.
+This version is designed to work with two virtual mutable subsequences that are stored adjacent to
+each other within the physical sequence structure, theSeq. Since the two virtual subsequences are always
+adjacent within the physical sequence, they can be specified by three array index variables: left,
+the index of the first element in the left subsequence; right, the index of the first
+element in the right subsequence; and end, the index of the first element following
+the end of the right subsequence. A second difference in this version is how the
+resulting merged sequence is returned. Instead of creating a new list structure,
+the merged sequence is stored back into the physical structure within the elements
+occupied by the two virtual subsequences.
+
+The tmpArray argument provides a temporary array needed for intermediate
+storage during the merging of the two subsequences. The array must be large
+enough to hold all of the elements from both subsequences. This temporary storage
+is needed since the resulting sorted sequence is not returned by the function but
+instead is copied back to the original sequence structure. During the merging
+operation, the elements from the two subsequences are saved into the temporary
+array. After being merged, the elements are copied from the temporary array back
+to the original structure. We could create a new array each time the function is
+called, which would then be deleted when the function terminates. But that requires
+additional overhead that is compounded by the many calls to the mergeVirtualSeq()
+function during the execution of the recursive recMergeSort() function. To reduce
+this overhead, implementations of the merge sort algorithm typically allocate a
+single array that is of the same size as the original list and then simply pass the
+array into the mergeVirtualSeq() function.
+
+The implementation of the earlier sorting algorithms only required the user to supply
+the array or list to be sorted. The recMergeSort() function, however, requires not only
+the sequence structure but also the index markers and a temporary array. These extra
+arguments may not be as intuitive to the user as simply passing the sequence to be
+sorted. In addition, what happens if the user supplies incorrect range values or the
+temporary array is not large enough to merge the largest subsequence? A better approach
+is to provide a wrapper function for recMergeSort(). The mergeSort() function
+provides a simpler interface as it only requires the array or list to be sorted. The wrapper
+function handles the creation of the temporary array needed by the merge sort algorithm and
+initiates the first call to the recursive function.
+
+EFFICIENCY ANALYSIS.
+
+We provided two implementations for the merge sort algorithm: one that can only
+be used with lists and employs the slice operation, and another that can be used
+with arrays or lists but requires the use of a temporary array in merging virtual
+subsequences. Both implementations run in O( n log n ) time. To see how we obtain
+this result, assume an array of n elements is passed to recMergeSort() on the first
+invocation of the recursive function. For simplicity, we can len n be a power of 2,
+which result is subsequences of equal size each time a list is split.
+
+As we saw in the previous section, the running time of a recursive function is computed
+by evaluating the time required by each function invocation. This evaluation only
+includes the time of the steps actually performed in the given function invocation.
+The recursive steps are omitted since their times will be computed separately.
+
+We can start by evaluating the time required for a single invocation of the
+recMergeSort() function. Since each recursive call reduces the size of the problem,
+we let m represent the number of keys in the subsequence passed to the current
+instance of the function ( n represents the size of the entire array ). When the
+function is executed, either the base case or the divide and conquer steps are
+performed. The base case occurs when the supplied sequence contains a single item
+( m = 1 ), which results in the function simply returning without having performed
+any operations. This of course only requires O( 1 ) time. The dividing step is
+also a constant time operation since it only requires computing the midpoint to
+determine where the virtual sequence will split. The real work is done in the
+conquering step b the mergeVirtualLists() function. This function requires
+O( m ) time in the worst case where m represents the total number of items in
+both subsequences. Having determined the time required of the various operations, we
+can conclude that a single invocation of the recMergeSort() function requires
+O( m ) time given a subsequence of m keys.
+
+The next step is to determine the total time required to execute all invocations
+of the recursive function. This analysis is best described using a recursive call tree.
+To obtain the total running time of the merge sort algorithm, we need to
+compute the sum of the individual times. In our sample call tree, where n = 16, the
+first recursive call processes the entire key list. This instance makes two recursive
+calls, each processing half of the original key sequence. The two function instances at the second level of the call tree
+each make two recursive calls, all of which process one-fourth of the original
+key sequence. These recursive calls continue until the subsequence contains a single
+key value.
+While each invocation of the function, other than the initial call, only processes
+a portion of the original key sequence, all n keys are processed at each level. If
+we can determine how many levels there are in the recursive call tree, we can
+multiply this value by the number of keys to obtain the final run time. When n
+is a power of 2, the merge sort algorithm requires log n levels of recursion. Thus,
+the merge sort algorithm requires O(n log n) time since there are log n levels and
+each level requires n time.

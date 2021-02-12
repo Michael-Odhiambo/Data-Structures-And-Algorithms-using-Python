@@ -1,0 +1,103 @@
+
+APPLICATION : Solving A Maze.
+
+A classic example of an application that requires the use of a stack is the problem of finding a path
+through a maze. When viewing a maze drawn on paper, we can quickly find a path from the starting point
+to the exit. This usually involves scanning the entire maze mentally eliminating dead ends. But consider
+a human size maze in which you are inside the maze and only have a "rat's-eye" view. You cannot see over
+the walls and must travel within the maze remembering where you have been and where you need to go. In this
+situation, it's not as easy to find the exit as compared to viewing the maze on paper.
+
+An algorithm that can be used to find a path through a maze is likely to employ a technique similar to what
+you would use if you were inside the maze. 
+
+BACKTRACKING.
+
+The most basic problem-solving technique in computer science is the brute-force method. It involves searching
+for a solution to a given problem by systematically trying all possible candidates until either a solution is
+found or it can be determined there is no solution. Brute-force is time-consuming and is generally chosen as a
+last resort. But some problems can only be solved using this technique.
+
+If applied to the maze problem, the brute-force method would require we start at the beginning and follow a path
+until we either find the exit or encounter a blocked passage. If we hit a wall instead of the exit, we would
+start over from the beginning and try a different path. But this would be time consuming since we would likely
+follow part of the same path from the beginning to some point before we encountered the blocked passage. instead
+of going all the way back to the beginning, we could back up along the path we originally took until we find
+a passage going in a different direction. We could then follow the new passage in hopes of finding the exit.
+If we again encounter a blocked passage before the exit, we can back up one or more steps and try a different
+passage.
+
+This process of eliminating possible contenders from the solution and partially backing up to try others is 
+known as backtracking and is a refinement of the basic brute-force method. There is a broad class of algorithms
+that employ this technique and are known as backtracking algorithms. All of these algorithms attempt to find
+a solution to a problem by extending a partial solution one step at a time. If a "dead end" is encountered
+during this process, the algorithm backtracks one or more steps in an attempt to try other possibilities without
+having to start over from the beginning.
+
+DESIGNING A SOLUTION.
+
+The solution to the maze problem is a classic example of backtracking. In this section, we explore the technique
+and design a solution to the maze problem.
+
+PROBLEM DETAILS.
+
+Given a maze with indicated starting and exit positions, the objectives are (1) determine if there is a path
+from the starting position to the exit, and (2) specify the path with no circles or loopbacks. In designing
+an algorithm to solve a maze, it will be easier if we think of the maze as a collection of equal-sized cells
+laid out in rows and columns. The cells will either be filled representing walls of the maze or empty to 
+represent open spaces. In addition, one cell will be indicated as the starting position and another as the exit.
+
+To further aide in the algorithm development, we place certain restrictions on movement within the maze. First,
+we can only move one cell at a time and only to open positions, those not blocked by a wall or previously used
+along the current path. The latter prevents us from reusing a cell as part of the solution since we want to
+find a path from the start to the exit without ever having to go in circles. Finally, we limit movement between
+open cells to the horizontal and vertical directions. 
+
+During our search for the exit, we need to remember which cells have been visited. Some will be part of the 
+final path to the exit while others will have led us to dead ends. At the end, we need to know which cells
+form the path from the start to the exit. But during the search for the exit, we also need to avoid cells that
+previously led to a dead end. To assist in remembering the cells, we can place a token in each cell visited and
+distinguish between the two. In our example, we will use an x to represent cells along the path and an o to 
+represent those that led to a dead end.
+
+THE MAZE ADT.
+
+Given the description of the maze problem and the backtracking algorithm for finding a path through the maze,
+we now define the Maze ADT that can be used to construct and solve a maze.
+
+A maze is a two-dimensional structure divided into rows and columns of equal-sized cells. The individual cells
+can be filled representing a wall or empty representing an open space. One cell is marked as the starting 
+position and another as the exit.
+
+- Maze( numRows, numCols ) : Creates a new maze with all of the cells initialized as open cells. The starting
+                             and exit positions are undefined.
+
+- numRows() : Returns the number of rows in the maze.
+
+- numCols() : Returns the number of columns in the maze.
+
+- setWall( row, col ) : Fills The indicated cell( row, col ) with a wall. The cell indices must be within the
+                        valid range of rows and columns.
+
+- setStart( row, col ) : Sets the indicatd cell ( row, col ) as the starting position. The cell indices must
+                         be within the valid range.
+
+- setExit( row, col ) : Sets the indicated cell ( row, col ) as the exit position. The cell indices must be 
+                        within the valid range.
+
+- findPath() : Attempts to solve the maze by finding a path from the starting position to the exit. If a solution
+               is found, the path is marked with tokens (x) and True is returned. For a maze with no solution,
+               False is returned and the maze is left in its original state. The maze must contain both the
+               starting and exit position. Cells on the perimeter of the maze can be oopen and it can be assumed
+               there is an invisible wall surrounding the entire maze.
+
+- reset() : Resets the maze to its original state by removing any tokens placed during the find path operation.
+
+- draw() : Prints the maze in a readable format using characters to represent the walls and path through the
+           maze, if a path has been found. Both the starting and exit positions are also indicated, if previously
+           set.
+
+Our ADT definition is not meant for a general purpose maze, but instead one that can be used to build a maze
+and then solve and print the result. A more general purpose ADT would most likely return the solution path as a
+list of tuples instead of simply marking the cells within the maze as is the case in our definition.
+

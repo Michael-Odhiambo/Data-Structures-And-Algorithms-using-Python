@@ -1,0 +1,42 @@
+
+THE DIGITAL GRAYSCALE IMAGE.
+
+The digital grayscale image was introduced in Programming Project 2.3 and an
+abstract data type was defined and implemented for storing grayscale images.
+A color digital image is also a two-dimensional raster image, but unlike the
+grayscale image, the pixels of a color image store data representing colors
+instead of a single grayscale value. There are different ways to specify color,
+but one of the most common is with the use of the discrete RGB color space.
+
+Individual colors are specified by three intensity values or components within
+the range [0 . . . 255], one for each of the three primary colors that represent
+the amount of red, green, and blue light that must be added to produce the
+given color. We can define the RGBColor class for use in storing a single color
+in the discrete RGB color space.
+
+class RGBColor :
+    def __init__( self, red = 0, green = 0, blue = 0 ):
+        self.red = red
+        self.green = green
+        self.blue = blue
+Given the description of the operations for the Color Image ADT, implement
+the abstract data type using a 2-D array that stores instances of the RGBColor
+class. Note when setting the initial color in the constructor or when clearing
+the image to a specific color, you can store aliases to one RGBColor object in
+each element of the array.
+
+     ColorImage( nrows, ncols ): Creates a new instance that consists of
+        nrows and ncols of pixels each set to black.
+
+     width(): Returns the width of the image.
+
+     height(): Returns the height of the image.
+
+     clear( color ): Clears the entire image by setting each pixel to the given
+        RGB color.
+
+     getitem ( row, col ): Returns the RGB color of the given pixel as an
+        RGBColor object. The pixel coordinates must be within the valid range.
+        
+     setitem ( row, col, color ): Set the given pixel to the given RGB color.
+        The pixel coordinates must be within the valid range.

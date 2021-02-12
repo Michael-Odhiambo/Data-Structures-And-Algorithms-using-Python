@@ -1,0 +1,26 @@
+
+A line segment is a straight line bounded by two endpoints. The Line Segment
+ADT, whose operations are described below, represents a line segment defined
+by points in the two-dimensional Cartesian coordinate system. Use the Point
+class from Appendix D and implement the Line Segment ADT.
+
+   LineSegment( ptA, ptB ): Creates a new Line Segment instance defined
+     by the two Point objects.
+   endPointA(): Returns the first endpoint of the line.
+   endPointB(): Returns the second endpoint of the line.
+   length (): Returns the length of the line segment given as the Euclidean
+               distance between the two endpoints.
+   toString (): Returns a string representation of the line segment in the
+                 format (Ax, Ay)#(Bx, By).
+   isVertical(): Is the line segment parallel to the y-axis?
+   isHorizontal(): Is the line segment parallel to the x-axis?
+   isParallel( otherLine ): Is this line segment parallel to the otherLine?
+   isPerpendicular( otherLine ): Is this line segment perpendicular to the
+                                   otherLine?
+   intersects(otherLine ): Does this line segment intersect the otherLine?
+   bisects( otherLine ): Does this line segment bisect the otherLine?
+   slope(): Returns the slope of the line segment given as the rise over the
+              run. If the line segment is vertical, None is returned.
+   shift( xInc, yInc ): Shifts the line segment by xInc amount along the
+                          x-axis and yInc amount along the y-axis.
+   midpoint(): Returns the midpoint of the line segment as a Point object.
