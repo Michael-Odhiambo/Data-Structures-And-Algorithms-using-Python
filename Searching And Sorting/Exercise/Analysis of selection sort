@@ -1,0 +1,17 @@
+Here I am going to analyze the code being executed line by line (this does not include comments).Their are two things we need to keep track of to analyze the time complexity of the selection sort algorithm and that is the cost it takes to execute the statement at each line and the number of times the statement at that line is executed.
+
+Inside the selectionSort function:
+Line 1: COST= C1, TIME = 1, where C1 is some constant
+Line 2: COST=C2, TIME = n+1, where C2 is some constant
+Line 3: COST = C3, TIME = n, where C3 is some constant
+Line 4: COST = C4, TIME = (n²-n) / 2 + n, where C4 is some constant
+Line 5: COST = C5, TIME = (n²-n) / 2, where C5 is some constant
+Line 6: COST= C6, TIME = (n²-n) / 2, where C6 is some constant
+Line 7: COST = C7, TIME = n, where C7 is some constant
+Line 8: COST = C8, TIME = n, where C5 is some constant
+Line 9: COST = C9, TIME = n, where C9 is some constant
+A video showing how I figured out the TIME for each line of code being executed is below, or you can click here to watch. Now that we have all of the costs and the times, we must sum up all of the costs times the time to get the runtime:
+Runtime = (C1 *1) + (C2 *(n+1)) + (C3 *n) + (C4 * ((n²-n)/2) + n) + (C5 * (n²-n) / 2) + (C6 * (n²-n) / 2) + (C7 * n)+ (C8 * n)+ (C9 * n)
+Where U,V, and W are constants
+= U +Vn + Wn²
+= O(n²)

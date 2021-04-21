@@ -1,0 +1,16 @@
+
+Bubble-SORT(A)
+  for i in 1 to A.length
+    for j in 1 to A.length-i
+      if A[j] > A[j+1]
+        swap(A[j], A[j+1])
+
+In the case of the standard version of the bubble sort, we need to do N iterations. In each iteration, we do the comparison and we perform swapping if required. Given an array of size N, the first iteration performs (N - 1) comparisons. The second iteration performs (N - 2) comparisons. In this way, the total number of comparison will be:
+
+(N - 1) + (N - 2) + (N - 3) + .......+ 3 + 2 + 1 = \frac{N(N - 1)}{2} = \mathcal{O}(N^2)
+
+Therefore, in the average case, the time complexity of the standard bubble sort would be \mathbf{\mathcal{O}(N^2)}.
+
+Now let’s talk about the best case and worst case in bubble sort. The best case would be when the input array is already sorted. In this case, we check all the N elements to see if there is any need for swaps. If there is no swapping still we continue and complete N iterations. Therefore, in the best scenario, the time complexity of the standard bubble sort would be \mathbf{\mathcal{O}(N^2)}.
+
+In the worst case, the array is reversely sorted. So we need to do (N - 1) comparisons in the first iteration, (N - 2) in the second interactions, and so on. Hence, the time complexity of the bubble sort in the worst case would be the same as the average case and best case: \mathbf{\mathcal{O}(N^2)}.
